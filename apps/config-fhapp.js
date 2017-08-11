@@ -1,4 +1,5 @@
-var MCK_STATICPATH = "/assets/chat/fhapp";
+var MAIN_PATH = "https://chat.fh.com.br/src/";
+var CUSTOM_PATH = "https://chat.fh.com.br/apps/fhapp/";
 
 var $original;
 var oModal = "";
@@ -16,38 +17,38 @@ var applozicSideBox = new ApplozicSidebox();
 applozicSideBox.load();
 function ApplozicSidebox() {
     var mck_style_loader = [ {
-            "name": "combined", "url": MCK_STATICPATH + "/css/app/sidebox/applozic.combined.min.css"
+            "name": "combined", "url": MAIN_PATH + "css/app/sidebox/applozic.combined.min.css"
     }, {
-            "name": "sidebox", "url": MCK_STATICPATH + "/css/app/sidebox/applozic.sidebox.css"
+            "name": "sidebox", "url": MAIN_PATH + "css/app/sidebox/applozic.sidebox.css"
     } ];
     var mck_script_loader1 = [ {
-            "name": "widget", "url": MCK_STATICPATH + "/js/applozic.widget.min.js"
+            "name": "widget", "url": MAIN_PATH + "js/applozic.widget.min.js"
     }, {
-            "name": "plugins", "url": MCK_STATICPATH + "/js/applozic.plugins.min.js"
+            "name": "plugins", "url": MAIN_PATH + "js/applozic.plugins.min.js"
     }, {
-            "name": "socket", "url": MCK_STATICPATH + "/js/applozic.socket.min.js"
+            "name": "socket", "url": MAIN_PATH + "js/applozic.socket.min.js"
     }, {
             "name": "maps", "url": "https://maps.google.com/maps/api/js?libraries=places"
     }, {
-            "name": "emojis", "url": MCK_STATICPATH + "/js/applozic.emojis.min.js"
+            "name": "emojis", "url": MAIN_PATH + "js/applozic.emojis.min.js"
     }, {
-            "name": "common", "url": MCK_STATICPATH + "/js/app/applozic.common.js"
+            "name": "common", "url": MAIN_PATH + "js/app/applozic.common.js"
     },{
-           "name": "aes", "url": MCK_STATICPATH + "/js/applozic.aes.js"
+           "name": "aes", "url": MAIN_PATH + "js/applozic.aes.js"
     } ];
     var mck_script_loader2 = [ {
-            "name": "locationpicker", "url": MCK_STATICPATH + "/js/locationpicker.jquery.min.js"
+            "name": "locationpicker", "url": MAIN_PATH + "js/locationpicker.jquery.min.js"
     } ];
    /*var mck_videocall = [ {
             "name": "video_howler", "url": "https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.2/howler.min.js"
           
     },{
-        "name": "video_videocall", "url": MCK_STATICPATH + "/sidebox/js/app/videocall.js"
+        "name": "video_videocall", "url": "/js/app/call/videocall.js"
           
     }, { 
-          "name": "video_twilio", "url": MCK_STATICPATH + "/sidebox/js/app/twilio-video.js"        
+          "name": "video_twilio", "url": "/js/app/call/twilio-video.js"        
     }, { 
-           "name": "video_ringtone", "url": MCK_STATICPATH + "/sidebox/js/app/mck-ringtone-service.js"
+           "name": "video_ringtone", "url": "/js/app/call/mck-ringtone-service.js"
 
     } ];*/
     this.load = function() {
@@ -55,7 +56,7 @@ function ApplozicSidebox() {
             var head = document.getElementsByTagName('head')[0];
             var script = document.createElement('script');
             script.type = 'text/javascript';
-            script.src = MCK_STATICPATH + "/js/jquery.min.js";
+            script.src = MAIN_PATH + "js/jquery.min.js";
             if (script.readyState) { // IE
                 script.onreadystatechange = function() {
                     if (script.readyState === "loaded" || script.readyState === "complete") {
@@ -93,7 +94,7 @@ function ApplozicSidebox() {
                 mckLoadStyle(data.url);
             });
             $.ajax({
-                    url: MCK_STATICPATH + '/sidebox.html', crossDomain: true, success: function(data) {
+                    url: CUSTOM_PATH + 'sidebox.html', crossDomain: true, success: function(data) {
                         data = data.replace(/MCK_STATICPATH/g, MCK_STATICPATH);
                         $("body").append(data);
                         mckInitPluginScript();
@@ -212,7 +213,7 @@ function ApplozicSidebox() {
             var body = document.getElementsByTagName('body')[0];
             var script = document.createElement('script');
             script.type = 'text/javascript';
-            script.src = MCK_STATICPATH + "/js/app/sidebox/applozic.sidebox.js";
+            script.src = MAIN_PATH + "js/app/sidebox/applozic.sidebox.js";
             if (script.readyState) { // IE
                 script.onreadystatechange = function() {
                     if (script.readyState === "loaded" || script.readyState === "complete") {
