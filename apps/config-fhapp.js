@@ -95,7 +95,7 @@ function ApplozicSidebox() {
             });
             $.ajax({
                     url: CUSTOM_PATH + 'sidebox.html', crossDomain: true, success: function(data) {
-                        data = data.replace(/MCK_STATICPATH/g, MCK_STATICPATH);
+                        data = data.replace(/MCK_STATICPATH/g, MAIN_PATH);
                         $("body").append(data);
                         mckInitPluginScript();
                     }
