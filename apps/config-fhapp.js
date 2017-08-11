@@ -1,5 +1,5 @@
-var MAIN_PATH = "https://chat.fh.com.br/src/";
-var CUSTOM_PATH = "https://chat.fh.com.br/apps/fhapp/";
+var MAIN_PATH = CHAT_PATH + "/src/";
+var CUSTOM_PATH = CHAT_PATH + "/apps/fhapp/";
 
 var $original;
 var oModal = "";
@@ -72,8 +72,8 @@ function ApplozicSidebox() {
             head.appendChild(script);
         } catch (e) {
             console.log("Plugin loading error. Refresh page.");
-            if (typeof MCK_ONINIT === 'function') {
-                MCK_ONINIT("error");
+            if (typeof CHAT_ONINIT === 'function') {
+                CHAT_ONINIT("error");
             }
             return false;
         }
@@ -102,8 +102,8 @@ function ApplozicSidebox() {
             });
         } catch (e) {
             console.log("Plugin loading error. Refresh page.");
-            if (typeof MCK_ONINIT === 'function') {
-                MCK_ONINIT("error");
+            if (typeof CHAT_ONINIT === 'function') {
+                CHAT_ONINIT("error");
             }
             return false;
         }
@@ -139,8 +139,8 @@ function ApplozicSidebox() {
             body.appendChild(script);
         } catch (e) {
             console.log("Plugin loading error. Refresh page.");
-            if (typeof MCK_ONINIT === 'function') {
-                MCK_ONINIT("error");
+            if (typeof CHAT_ONINIT === 'function') {
+                CHAT_ONINIT("error");
             }
             return false;
         }
@@ -187,8 +187,8 @@ function ApplozicSidebox() {
                }
         } catch (e) {
             console.log("Plugin loading error. Refresh page.");
-            if (typeof MCK_ONINIT === 'function') {
-                MCK_ONINIT("error");
+            if (typeof CHAT_ONINIT === 'function') {
+                CHAT_ONINIT("error");
             }
             return false;
         }
@@ -202,8 +202,8 @@ function ApplozicSidebox() {
             });
         } catch (e) {
             console.log("Plugin loading error. Refresh page.");
-            if (typeof MCK_ONINIT === 'function') {
-                MCK_ONINIT("error");
+            if (typeof CHAT_ONINIT === 'function') {
+                CHAT_ONINIT("error");
             }
             return false;
         }
@@ -229,8 +229,8 @@ function ApplozicSidebox() {
             body.appendChild(script);
         } catch (e) {
             console.log("Plugin loading error. Refresh page.");
-            if (typeof MCK_ONINIT === 'function') {
-                MCK_ONINIT("error");
+            if (typeof CHAT_ONINIT === 'function') {
+                CHAT_ONINIT("error");
             }
             return false;
         }
@@ -245,8 +245,8 @@ function ApplozicSidebox() {
             }
         } catch (e) {
             console.log("Plugin loading error. Refresh page.");
-            if (typeof MCK_ONINIT === 'function') {
-                MCK_ONINIT("error");
+            if (typeof CHAT_ONINIT === 'function') {
+                CHAT_ONINIT("error");
             }
             return false;
         }
