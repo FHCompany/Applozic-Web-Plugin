@@ -20,6 +20,8 @@ function ApplozicSidebox() {
             "name": "combined", "url": MAIN_PATH + "css/app/sidebox/applozic.combined.min.css"
     }, {
             "name": "sidebox", "url": MAIN_PATH + "css/app/sidebox/applozic.sidebox.css"
+    }, {
+            "name": "sidebox", "url": CUSTOM_PATH + "css/style.css"
     } ];
     var mck_script_loader1 = [ {
             "name": "widget", "url": MAIN_PATH + "js/applozic.widget.min.js"
