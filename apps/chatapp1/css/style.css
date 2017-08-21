@@ -11,3 +11,8 @@
 	background-color: #b73333 !important;
 	border-color: #a42e2e;
 }
+
+.mck-box input {
+	width: 87% !important;
+	transform: none !important;
+}
