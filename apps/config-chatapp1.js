@@ -21,7 +21,7 @@ function ApplozicSidebox() {
     }, {
             "name": "sidebox", "url": MAIN_PATH + "css/app/sidebox/applozic.sidebox.css"
     }, {
-            "name": "sidebox", "url": CUSTOM_PATH + "css/style.css"
+            "name": "custom", "url": CUSTOM_PATH + "css/style.css"
     } ];
     var mck_script_loader1 = [ {
             "name": "widget", "url": MAIN_PATH + "js/applozic.widget.min.js"
@@ -59,6 +59,7 @@ function ApplozicSidebox() {
             var script = document.createElement('script');
             script.type = 'text/javascript';
             script.src = MAIN_PATH + "js/jquery.min.js";
+            script.id = "applozic-jquery";
             if (script.readyState) { // IE
                 script.onreadystatechange = function() {
                     if (script.readyState === "loaded" || script.readyState === "complete") {
@@ -93,7 +94,7 @@ function ApplozicSidebox() {
         }
         try {
             $.each(mck_style_loader, function(i, data) {
-                mckLoadStyle(data.url);
+                mckLoadStyle(data);
             });
             $.ajax({
                     url: CUSTOM_PATH + 'sidebox.html', crossDomain: true, success: function(data) {
@@ -110,12 +111,13 @@ function ApplozicSidebox() {
             return false;
         }
     }
-    function mckLoadStyle(url) {
+    function mckLoadStyle(data) {
         var head = document.getElementsByTagName('head')[0];
         var style = document.createElement('link');
         style.type = 'text/css';
         style.rel = "stylesheet";
-        style.href = url;
+        style.href = data.url;
+        style.id = "applozic-" + data.name;
         head.appendChild(style);
     }
     function mckLoadScript(data, callback) {
