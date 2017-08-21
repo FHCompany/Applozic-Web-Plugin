@@ -118,12 +118,14 @@ function ApplozicSidebox() {
         style.href = url;
         head.appendChild(style);
     }
-    function mckLoadScript(url, callback) {
+    function mckLoadScript(script, callback) {
         try {
+            console.log(script);
             var body = document.getElementsByTagName('body')[0];
             var script = document.createElement('script');
+            script.id = 'script-' + script.name;
             script.type = 'text/javascript';
-            script.src = url;
+            script.src = script.url;
             if (callback) {
                 if (script.readyState) { // IE
                     script.onreadystatechange = function() {
@@ -154,12 +156,12 @@ function ApplozicSidebox() {
                     try {
                        var options = applozic._globals;
                         if (typeof options !== 'undefined' && options.locShare === true) {
-                            mckLoadScript(data.url, mckLoadScript2);
+                            mckLoadScript(data, mckLoadScript2);
                         } else {
-                            mckLoadScript(data.url, mckLoadAppScript);
+                            mckLoadScript(data, mckLoadAppScript);
                         }
                     } catch (e) {
-                        mckLoadScript(data.url, mckLoadAppScript);
+                        mckLoadScript(data, mckLoadAppScript);
                     }
                 } else if (data.name === "maps") {
                     try {
@@ -173,18 +175,18 @@ function ApplozicSidebox() {
                                 mckLoadScript(url);
                             }
                         } else {
-                            mckLoadScript(data.url);
+                            mckLoadScript(data);
                         }
                     } catch (e) {
-                        mckLoadScript(data.url);
+                        mckLoadScript(data);
                     }
                 } else {
-                    mckLoadScript(data.url);
+                    mckLoadScript(data);
                 }
             });
              if (typeof applozic._globals !== 'undefined'&& applozic._globals.video === true) {
                           $.each(mck_videocall, function(i, data) { 
-                          mckLoadScript(data.url);
+                          mckLoadScript(data);
                  });
                }
         } catch (e) {
@@ -199,7 +201,7 @@ function ApplozicSidebox() {
         try {
             $.each(mck_script_loader2, function(i, data) {
                 if (data.name === "locationpicker") {
-                    mckLoadScript(data.url, mckLoadAppScript);
+                    mckLoadScript(data, mckLoadAppScript);
                 }
             });
         } catch (e) {

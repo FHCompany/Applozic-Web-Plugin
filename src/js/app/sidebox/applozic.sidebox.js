@@ -736,7 +736,11 @@ var MCK_CLIENT_GROUP_MAP = [];
               mckStorage.clearMckMessageArray();
               $applozic.fn.applozic("reset",appOptions);
               $applozic("#mck-sidebox").hide();
+              $applozic("#mck-loc-box").hide();
+              $applozic("#mck-gm-search-box").hide();
+              $applozic("#mck-video-box").hide();
               $applozic("#mck-sidebox-launcher").hide();
+              $applozic("#mck-msg-preview").hide();
           }
           IS_LOGGED_IN = false;
       };
