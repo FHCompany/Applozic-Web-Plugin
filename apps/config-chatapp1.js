@@ -124,7 +124,7 @@ function ApplozicSidebox() {
             var script = document.createElement('script');
             script.type = 'text/javascript';
             script.src = url;
-            script.id = "applozic";
+            script.id = "applozic-script";
             if (callback) {
                 if (script.readyState) { // IE
                     script.onreadystatechange = function() {
@@ -217,6 +217,7 @@ function ApplozicSidebox() {
             var script = document.createElement('script');
             script.type = 'text/javascript';
             script.src = MAIN_PATH + "js/app/sidebox/applozic.sidebox.js";
+            script.id = "applozic-script";
             if (script.readyState) { // IE
                 script.onreadystatechange = function() {
                     if (script.readyState === "loaded" || script.readyState === "complete") {
