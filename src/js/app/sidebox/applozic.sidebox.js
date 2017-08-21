@@ -5758,6 +5758,7 @@ var MCK_CLIENT_GROUP_MAP = [];
             };
             _this.loadUserProfile = function(userId) {
                 if (typeof userId !== "undefined") {
+                    userId = userId.toString();
                     var userIdArray = [];
                     var memberId = '' + userId.split(",")[0];
                     userIdArray.push(memberId);
