@@ -12,7 +12,7 @@
 	border-color: #a42e2e;
 }
 
-.mck-box input {
+.mck-box input, .mck-box input:focus {
 	width: 87% !important;
 	transform: none !important;
 }
