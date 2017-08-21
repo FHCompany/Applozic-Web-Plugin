@@ -735,13 +735,22 @@ var MCK_CLIENT_GROUP_MAP = [];
               mckInitializeChannel.disconnect();
               mckStorage.clearMckMessageArray();
               $applozic.fn.applozic("reset",appOptions);
+              // DOM elements
               $applozic("#mck-sidebox").remove();
               $applozic("#mck-loc-box").remove();
               $applozic("#mck-gm-search-box").remove();
               $applozic("#mck-video-box").remove();
               $applozic("#mck-sidebox-launcher").remove();
               $applozic("#mck-msg-preview").remove();
-              $applozic("#applozic-script").remove();
+              // Scripts
+              $applozic("#applozic-widget").remove();
+              $applozic("#applozic-plugins").remove();
+              $applozic("#applozic-socket").remove();
+              $applozic("#applozic-emojis").remove();
+              $applozic("#applozic-common").remove();
+              $applozic("#applozic-aes").remove();
+              $applozic("#applozic-locationpicker").remove();
+              $applozic("#applozic-sidebox").remove();
           }
           IS_LOGGED_IN = false;
       };
