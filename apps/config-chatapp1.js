@@ -118,12 +118,12 @@ function ApplozicSidebox() {
         style.href = url;
         head.appendChild(style);
     }
-    function mckLoadScript(script, callback) {
+    function mckLoadScript(data, callback) {
         try {
             var body = document.getElementsByTagName('body')[0];
             var script = document.createElement('script');
             script.type = 'text/javascript';
-            script.src = script.url;
+            script.src = data.url;
             //script.id = "applozic-script";
             if (callback) {
                 if (script.readyState) { // IE
