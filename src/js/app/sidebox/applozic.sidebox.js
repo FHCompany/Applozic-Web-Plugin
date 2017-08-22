@@ -2533,7 +2533,7 @@ var MCK_CLIENT_GROUP_MAP = [];
                 $mck_text_box.focus().select();
                 $('#mck-reply-to-div').removeClass('n-vis').addClass('vis');
                 if(message.type === 5) {
-                      displayName = 'You';
+                      displayName = CHAT_LANGUAGE === 'en_US' ? 'You' : CHAT_LANGUAGE === 'pt_BR' ? 'Você' : 'Usted';
                     } else {
                     displayName = mckMessageLayout.getTabDisplayName(message.to, false);
                      }
@@ -4015,7 +4015,7 @@ var MCK_CLIENT_GROUP_MAP = [];
                      msgReplyToVisible ='vis';
                       }
                    if(replyMsg.type === 5) {
-                      replyTo = 'You';
+                      replyTo = CHAT_LANGUAGE === 'en_US' ? 'You' : CHAT_LANGUAGE === 'pt_BR' ? 'Você' : 'Usted';
                     } else {
                     replyTo = mckMessageLayout.getTabDisplayName(replyMsg.to, false);
                      }
@@ -6316,7 +6316,7 @@ var MCK_CLIENT_GROUP_MAP = [];
                         groupMembers += ' ' + name + ',';
                     }
                     if (group.type !== 5 && group.type !== 6 || (isGroupMember && group.type !== 5)) {
-                        groupMembers += ' You';
+                        groupMembers += CHAT_LANGUAGE === 'en_US' ? ' You' : CHAT_LANGUAGE === 'pt_BR' ? ' Você' : ' Usted';
                     }
                     if (group.members.length > 30) {
                         groupMembers += ' and ' + (group.members.length - 25) + ' more';
@@ -6624,7 +6624,7 @@ var MCK_CLIENT_GROUP_MAP = [];
                     enableAdminMenuExpr = "vis";
                 }
                 if (contact.contactId === MCK_USER_ID) {
-                    displayName = 'You';
+                    displayName = CHAT_LANGUAGE === 'en_US' ? 'You' : CHAT_LANGUAGE === 'pt_BR' ? 'Você' : 'Usted';
                     enableAdminMenuExpr = 'n-vis';
                 }
                 var imgsrctag = mckMessageLayout.getContactImageLink(contact, displayName);
