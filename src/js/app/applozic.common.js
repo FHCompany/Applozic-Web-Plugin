@@ -782,10 +782,10 @@ function MckGroupService() {
 }
 function MckDateUtils() {
     var _this = this;
-    var fullDateFormat = 'mmm d, h:MM TT';
-    var onlyDateFormat = 'mmm d';
-    var onlyTimeFormat = 'h:MM TT';
-    var months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
+    var fullDateFormat = CHAT_LANGUAGE === 'en_US' ? 'mmm dd, hh:MM' : 'dd \'de\' mmmm HH:MM';
+    var onlyDateFormat = CHAT_LANGUAGE === 'en_US' ? 'mmm dd' : 'dd \'de\' mmmm';
+    var onlyTimeFormat = CHAT_LANGUAGE === 'en_US' ? 'h:MM TT' : 'HH:MM';
+    var months = CHAT_LANGUAGE === 'en_US' ? ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] : CHAT_LANGUAGE === 'pt_BR' ? ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'] : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     _this.getDate = function(createdAtTime) {
         var date = new Date(parseInt(createdAtTime, 10));
         var currentDate = new Date();
@@ -798,11 +798,36 @@ function MckDateUtils() {
             var hoursDiff = currentDate.getHours() - date.getHours();
             var timeDiff = w.Math.floor((currentDate.getTime() - date.getTime()) / 60000);
             if (timeDiff < 60) {
-                return (timeDiff <= 1) ? MCK_LABELS['last.seen'] + ' 1 min ' + MCK_LABELS['ago'] : MCK_LABELS['last.seen'] + ' ' + timeDiff + ' mins ' + MCK_LABELS['ago'];
+                if (timeDiff <= 1) {
+                    if (CHAT_LANGUAGE === 'es_CO') {
+                        return MCK_LABELS['last.seen'] + ' ' + MCK_LABELS['ago'] + ' 1 ' + MCK_LABELS['time.min'];
+                    } else {
+                        return MCK_LABELS['last.seen'] + ' 1 ' + MCK_LABELS['time.min'] + ' ' + MCK_LABELS['ago'];
+                    }
+                } else {
+                    if (CHAT_LANGUAGE === 'es_CO') {
+                        return MCK_LABELS['last.seen'] + ' ' + MCK_LABELS['ago'] + ' ' + timeDiff + ' ' + MCK_LABELS['time.mins'];
+                    } else {
+                        return MCK_LABELS['last.seen'] + ' ' + timeDiff + ' ' + MCK_LABELS['time.mins'] + ' ' + MCK_LABELS['ago'];
+                    }
+                }
             }
-            return (hoursDiff === 1) ? MCK_LABELS['last.seen'] + ' 1 hour ' + MCK_LABELS['ago'] : MCK_LABELS['last.seen'] + ' ' + hoursDiff + ' hours ' + MCK_LABELS['ago'];
+
+            if (hoursDiff === 1) {
+                if (CHAT_LANGUAGE === 'es_CO') {
+                    return MCK_LABELS['last.seen'] + ' ' + MCK_LABELS['ago'] + ' 1 ' + MCK_LABELS['time.hour'];
+                } else {
+                    return MCK_LABELS['last.seen'] + ' 1 ' + MCK_LABELS['time.hour'] + ' ' + MCK_LABELS['ago'];
+                }                
+            } else {
+                if (CHAT_LANGUAGE === 'es_CO') {
+                    return MCK_LABELS['last.seen'] + ' ' + MCK_LABELS['ago'] + ' ' + hoursDiff + ' ' + MCK_LABELS['time.hours'];
+                } else {
+                    return MCK_LABELS['last.seen'] + ' ' + hoursDiff + ' ' + MCK_LABELS['time.hours'] + ' ' + MCK_LABELS['ago'];
+                }
+            }
         } else if ( ((currentDate.getDate() - date.getDate() === 1) && (currentDate.getMonth() === date.getMonth()) && (currentDate.getYear() === date.getYear())) ) {
-            return MCK_LABELS['last.seen.on'] + ' yesterday';
+            return MCK_LABELS['last.seen'] + ' ' + MCK_LABELS['time.yesterday'];
         } else {
             return MCK_LABELS['last.seen.on'] + ' ' + dateFormat(date, onlyDateFormat, false);
         }
@@ -934,7 +959,7 @@ function MckDateUtils() {
     };
     // Internationalization strings
     dateFormat.i18n = {
-        dayNames: [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ],
-        monthNames: [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
+        dayNames: CHAT_LANGUAGE === 'en_US' ? [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ] : CHAT_LANGUAGE === 'pt_BR' ? [ "Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado" ] : [ "Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sá", "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado" ],
+        monthNames: CHAT_LANGUAGE === 'en_US' ? [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ] : CHAT_LANGUAGE === 'pt_BR' ? [ "Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" ] : [ "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" ]
     };
 }
