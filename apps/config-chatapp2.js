@@ -1,5 +1,5 @@
 var MAIN_PATH = CHAT_PATH + "/src";
-var CUSTOM_PATH = CHAT_PATH + "/apps/chatapp1/";
+var CUSTOM_PATH = CHAT_PATH + "/apps/chatapp2/";
 
 var $original;
 var oModal = "";
