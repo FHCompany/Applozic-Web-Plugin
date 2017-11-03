@@ -1,4 +1,4 @@
-var MAIN_PATH = CHAT_PATH + "/src/";
+var MAIN_PATH = CHAT_PATH + "/src";
 var CUSTOM_PATH = CHAT_PATH + "/apps/chatapp2/";
 
 var $original;
@@ -17,29 +17,29 @@ var applozicSideBox = new ApplozicSidebox();
 applozicSideBox.load();
 function ApplozicSidebox() {
     var mck_style_loader = [ {
-            "name": "combined", "url": MAIN_PATH + "css/app/sidebox/applozic.combined.min.css"
+            "name": "combined", "url": MAIN_PATH + "/css/app/sidebox/applozic.combined.min.css"
     }, {
-            "name": "sidebox", "url": MAIN_PATH + "css/app/sidebox/applozic.sidebox.css"
+            "name": "sidebox", "url": MAIN_PATH + "/css/app/sidebox/applozic.sidebox.css"
     }, {
             "name": "custom", "url": CUSTOM_PATH + "css/style.css"
     } ];
     var mck_script_loader1 = [ {
-            "name": "widget", "url": MAIN_PATH + "js/applozic.widget.min.js"
+            "name": "widget", "url": MAIN_PATH + "/js/applozic.widget.min.js"
     }, {
-            "name": "plugins", "url": MAIN_PATH + "js/applozic.plugins.min.js"
+            "name": "plugins", "url": MAIN_PATH + "/js/applozic.plugins.min.js"
     }, {
-            "name": "socket", "url": MAIN_PATH + "js/applozic.socket.min.js"
+            "name": "socket", "url": MAIN_PATH + "/js/applozic.socket.min.js"
     }, {
             "name": "maps", "url": "https://maps.google.com/maps/api/js?libraries=places"
     }, {
-            "name": "emojis", "url": MAIN_PATH + "js/applozic.emojis.min.js"
+            "name": "emojis", "url": MAIN_PATH + "/js/applozic.emojis.min.js"
     }, {
-            "name": "common", "url": MAIN_PATH + "js/app/applozic.common.js"
+            "name": "common", "url": MAIN_PATH + "/js/app/applozic.common.js"
     },{
-           "name": "aes", "url": MAIN_PATH + "js/applozic.aes.js"
+           "name": "aes", "url": MAIN_PATH + "/js/applozic.aes.js"
     } ];
     var mck_script_loader2 = [ {
-            "name": "locationpicker", "url": MAIN_PATH + "js/locationpicker.jquery.min.js"
+            "name": "locationpicker", "url": MAIN_PATH + "/js/locationpicker.jquery.min.js"
     } ];
    /*var mck_videocall = [ {
             "name": "video_howler", "url": "https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.2/howler.min.js"
@@ -58,7 +58,7 @@ function ApplozicSidebox() {
             var head = document.getElementsByTagName('head')[0];
             var script = document.createElement('script');
             script.type = 'text/javascript';
-            script.src = MAIN_PATH + "js/jquery.min.js";
+            script.src = MAIN_PATH + "/js/jquery.min.js";
             script.id = "applozic-jquery";
             if (script.readyState) { // IE
                 script.onreadystatechange = function() {
@@ -218,7 +218,7 @@ function ApplozicSidebox() {
             var body = document.getElementsByTagName('body')[0];
             var script = document.createElement('script');
             script.type = 'text/javascript';
-            script.src = MAIN_PATH + "js/app/sidebox/applozic.sidebox.js";
+            script.src = MAIN_PATH + "/js/app/sidebox/applozic.sidebox.js";
             script.id = "applozic-sidebox";
             if (script.readyState) { // IE
                 script.onreadystatechange = function() {
