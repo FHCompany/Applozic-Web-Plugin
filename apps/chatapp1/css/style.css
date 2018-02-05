@@ -2,16 +2,6 @@
   font-size: 16px;
 }
 
-.mck-sidebox-launcher .mck-button-launcher {
-	background-color: #A70E13;
-}
-
-.mck-btn-blue {
-	color: #fff !important;
-	background-color: #b73333 !important;
-	border-color: #a42e2e;
-}
-
 .mck-box input, .mck-box input:focus {
 	width: 87% !important;
 	transform: none !important;
