@@ -188,7 +188,7 @@ window.onload = function() {
                         return 'success';
                         break;
                     case 'setOnline':
-                        oInstance.setOffline();
+                        oInstance.setOnline();
                         return 'success';
                         break;
                    case 'reset':
@@ -316,7 +316,6 @@ window.onload = function() {
         }
     };
     $applozic.fn.applozic.defaults = default_options;
-
 
     function Applozic(appOptions) {
         var _this = this;
@@ -1667,55 +1666,55 @@ window.onload = function() {
         _this.subscribeToEvents = function(events) {
             if (typeof events === 'object') {
                 if (typeof events.onConnectFailed === 'function') {
-                    _this.events.onConnectFailed = events.onConnectFailed;
+                    events.onConnectFailed = events.onConnectFailed;
                 }
                 if (typeof events.onConnect === 'function') {
-                    _this.events.onConnect = events.onConnect;
+                    events.onConnect = events.onConnect;
                 }
                 if (typeof events.onMessageDelivered === 'function') {
-                    _this.events.onMessageDelivered = events.onMessageDelivered;
+                    events.onMessageDelivered = events.onMessageDelivered;
                 }
                 if (typeof events.onMessageRead === 'function') {
-                    _this.events.onMessageRead = events.onMessageRead;
+                    events.onMessageRead = events.onMessageRead;
                 }
                 if (typeof events.onMessageDeleted === 'function') {
-                    _this.events.onMessageDeleted = events.onMessageDeleted;
+                    events.onMessageDeleted = events.onMessageDeleted;
                 }
                 if (typeof events.onConversationDeleted === 'function') {
-                    _this.events.onConversationDeleted = events.onConversationDeleted;
+                    events.onConversationDeleted = events.onConversationDeleted;
                 }
                 if (typeof events.onUserConnect === 'function') {
-                    _this.events.onUserConnect = events.onUserConnect;
+                    events.onUserConnect = events.onUserConnect;
                 }
                 if (typeof events.onUserDisconnect === 'function') {
-                    _this.events.onUserDisconnect = events.onUserDisconnect;
+                    events.onUserDisconnect = events.onUserDisconnect;
                 }
                 if (typeof events.onConversationReadFromOtherSource === 'function') {
-                    _this.events.onConversationReadFromOtherSource = events.onConversationReadFromOtherSource;
+                    events.onConversationReadFromOtherSource = events.onConversationReadFromOtherSource;
                 }
                 if (typeof events.onConversationRead === 'function') {
-                    _this.events.onConversationRead = events.onConversationRead;
+                    events.onConversationRead = events.onConversationRead;
                 }
                 if (typeof events.onMessageReceived === 'function') {
-                    _this.events.onMessageReceived = events.onMessageReceived;
+                    events.onMessageReceived = events.onMessageReceived;
                 }
                 if (typeof events.onMessageSentUpdate === 'function') {
-                    _this.events.onMessageSentUpdate = events.onMessageSentUpdate;
+                    events.onMessageSentUpdate = events.onMessageSentUpdate;
                 }
                 if (typeof events.onMessageSent === 'function') {
-                    _this.events.onMessageSent = events.onMessageSent;
+                    events.onMessageSent = events.onMessageSent;
                 }
                 if (typeof events.onUserBlocked === 'function') {
-                    _this.events.onUserBlocked = events.onUserBlocked;
+                    events.onUserBlocked = events.onUserBlocked;
                 }
                 if (typeof events.onUserUnblocked === 'function') {
-                    _this.events.onUserUnblocked = events.onUserUnblocked;
+                    events.onUserUnblocked = events.onUserUnblocked;
                 }
                 if (typeof events.onUserActivated === 'function') {
-                    _this.events.onUserActivated = events.onUserActivated;
+                    events.onUserActivated = events.onUserActivated;
                 }
                 if (typeof events.onUserDeactivated === 'function') {
-                    _this.events.onUserDeactivated = events.onUserDeactivated;
+                    events.onUserDeactivated = events.onUserDeactivated;
                 }
             };
         };
@@ -1725,7 +1724,6 @@ window.onload = function() {
                 'conversationId': params.conversationId
             });
         };
-
 
         function MckInit() {
             var _this = this;
@@ -6946,7 +6944,7 @@ window.onload = function() {
                     }
                     $mck_tab_title.removeClass('mck-tab-title-w-status');
                     $mck_tab_status.removeClass('vis').addClass('n-vis');
-                } else if (group.members.length > 0) {
+                } else if (group.members !== undefined && group.members.length > 0) {
                     var groupMembers = '';
                     var isGroupMember = false;
                     var subtitleLength = (group.members.length <= 30) ? group.members.length : 25;

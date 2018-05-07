@@ -1,15 +1,21 @@
+@media (max-width: 543px) {
+	.mck-sidebox.fade.in, .mck-box.fade .mck-right {
+		width: 100%;
+	}
+}
+
 .mck-text-box.mck-text {
   font-size: 16px;
 }
 
 .mck-sidebox-launcher .mck-button-launcher {
-	background-color: #faa61a;
+	background-color: #A70E13;
 }
 
 .mck-btn-blue {
 	color: #fff !important;
-	background-color: #faa61a !important;
-	border-color: #fec35a;
+	background-color: #b73333 !important;
+	border-color: #a42e2e;
 }
 
 .mck-box input, .mck-box input:focus {
