@@ -1,5 +1,5 @@
-var MAIN_PATH = CHAT_PATH + "/src";
-var CUSTOM_PATH = CHAT_PATH + "/apps/chatapp2/";
+var MAIN_PATH = CHAT_PATH + "/public/plugin";
+var CUSTOM_PATH = CHAT_PATH + "/apps/chatapp2";
 
 var $original;
 var oModal = "";
@@ -16,44 +16,60 @@ if (typeof jQuery !== 'undefined') {
 var applozicSideBox = new ApplozicSidebox();
 applozicSideBox.load();
 function ApplozicSidebox() {
-    var mck_style_loader = [ {
-            "name": "combined", "url": MAIN_PATH + "/css/app/sidebox/applozic.combined.min.css"
+    var googleApiKey = (typeof applozic._globals !== 'undefined' && applozic._globals.googleApiKey) ? (applozic._globals.googleApiKey) : "AIzaSyDKfWHzu9X7Z2hByeW4RRFJrD9SizOzZt4";
+    var mck_style_loader = [{
+        "name": "mck-combined", "url": MAIN_PATH + "/css/app/sidebox/applozic.combined.min.css"
     }, {
-            "name": "sidebox", "url": MAIN_PATH + "/css/app/sidebox/applozic.sidebox.css"
+        "name": "mck-sidebox", "url": MAIN_PATH + "/css/app/sidebox/applozic.sidebox.css"
     }, {
-            "name": "custom", "url": CUSTOM_PATH + "css/style.css"
-    } ];
-    var mck_script_loader1 = [ {
-            "name": "widget", "url": MAIN_PATH + "/js/applozic.widget.min.js"
+        "name": "viewer", "url": MAIN_PATH + "/css/app/sidebox/viewer.css"
     }, {
-            "name": "plugins", "url": MAIN_PATH + "/js/applozic.plugins.min.js"
+        "name": "custom", "url": CUSTOM_PATH + "/style.css"
+    }];
+    var mck_script_loader1 = [{
+        "name": "viewer", "url": MAIN_PATH + "/js/viewer.js"
     }, {
-            "name": "socket", "url": MAIN_PATH + "/js/applozic.socket.min.js"
+        "name": "plugins", "url": MAIN_PATH + "/js/applozic.plugins.min.js"
     }, {
-            "name": "maps", "url": "https://maps.google.com/maps/api/js?libraries=places"
+        "name": "widget", "url": MAIN_PATH + "/js/applozic.widget.min.js"
     }, {
-            "name": "emojis", "url": MAIN_PATH + "/js/applozic.emojis.min.js"
+        "name": "emojis", "url": MAIN_PATH + "/js/applozic.emojis.min.js"
     }, {
-            "name": "common", "url": MAIN_PATH + "/js/app/applozic.common.js"
-    },{
-           "name": "aes", "url": MAIN_PATH + "/js/applozic.aes.js"
-    } ];
-    var mck_script_loader2 = [ {
-            "name": "locationpicker", "url": MAIN_PATH + "/js/locationpicker.jquery.min.js"
-    } ];
-   /*var mck_videocall = [ {
-            "name": "video_howler", "url": "https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.2/howler.min.js"
-          
-    },{
-        "name": "video_videocall", "url": "/js/app/call/videocall.js"
-          
-    }, { 
-          "name": "video_twilio", "url": "/js/app/call/twilio-video.js"        
-    }, { 
-           "name": "video_ringtone", "url": "/js/app/call/mck-ringtone-service.js"
-
-    } ];*/
-    this.load = function() {
+        "name": "socket", "url": MAIN_PATH + "/js/applozic.socket.min.js"
+    }, {
+        "name": "maps", "url": "https://maps.google.com/maps/api/js?key=" + googleApiKey + "&libraries=places"
+    }, {
+        "name": "aes", "url": MAIN_PATH + "/js/applozic.aes.js"
+    }, {
+        "name": "utils", "url": MAIN_PATH + "/js/app/modules/applozic.utils.js"
+    }, {
+        "name": "mck-common", "url": MAIN_PATH + "/js/app/applozic.common.js"
+    }, {
+        "name": "modules-chat", "url": MAIN_PATH + "/js/app/modules/applozic.chat.js"
+    }, {
+        "name": "modules-storage", "url": MAIN_PATH + "/js/app/modules/storage/applozic.storage.js"
+    }, {
+        "name": "modules-api", "url": MAIN_PATH + "/js/app/modules/api/applozic.api.js"
+    }, {
+        "name": "modules-socket", "url": MAIN_PATH + "/js/app/modules/socket/applozic.socket.js"
+    }, {
+        "name": "modules-notifications", "url": MAIN_PATH + "/js/app/modules/socket/applozic.socket.js"
+    }];
+    var mck_script_loader2 = [{
+        "name": "locationpicker", "url": MAIN_PATH + "/js/locationpicker.jquery.min.js"
+    }];
+    var mck_videocall = [{
+        "name": "video_howler", "url": "https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.2/howler.min.js"
+    }, {
+        "name": "video_ringtone", "url": MAIN_PATH + "/js/app/call/mck-ringtone-service.js"
+    }, {
+        "name": "video_twilio", "url": MAIN_PATH + "/js/app/call/twilio-video.js"
+    }, {
+        "name": "video_videocall", "url": MAIN_PATH + "/js/app/call/videocall.js"
+    }, {
+        "name": "modules-videocall", "url": MAIN_PATH + "/js/app/modules/socket/applozic.socket.js"
+    }];
+    this.load = function () {
         try {
             var head = document.getElementsByTagName('head')[0];
             var script = document.createElement('script');
@@ -61,20 +77,21 @@ function ApplozicSidebox() {
             script.src = MAIN_PATH + "/js/jquery.min.js";
             script.id = "applozic-jquery";
             if (script.readyState) { // IE
-                script.onreadystatechange = function() {
+                script.onreadystatechange = function () {
                     if (script.readyState === "loaded" || script.readyState === "complete") {
                         script.onreadystatechange = null;
                         mckinitPlugin();
                     }
                 };
             } else { // Others
-                script.onload = function() {
+                script.onload = function () {
                     mckinitPlugin();
                 };
             }
             head.appendChild(script);
         } catch (e) {
             console.log("Plugin loading error. Refresh page.");
+            console.log(e);
             if (typeof CHAT_ONINIT === 'function') {
                 CHAT_ONINIT("error");
             }
@@ -93,18 +110,19 @@ function ApplozicSidebox() {
             }
         }
         try {
-            $.each(mck_style_loader, function(i, data) {
+            $.each(mck_style_loader, function (i, data) {
                 mckLoadStyle(data);
             });
             $.ajax({
-                    url: CUSTOM_PATH + 'sidebox.html', crossDomain: true, success: function(data) {
-                        data = data.replace(/MCK_STATICPATH/g, MAIN_PATH);
-                        $("body").append(data);
-                        mckInitPluginScript();
-                    }
+                url: CUSTOM_PATH + '/sidebox.html', crossDomain: true, success: function (data) {
+                    data = data.replace(/MAIN_PATH/g, MAIN_PATH);
+                    $("body").append(data);
+                    mckInitPluginScript();
+                }
             });
         } catch (e) {
             console.log("Plugin loading error. Refresh page.");
+            console.log(e);
             if (typeof CHAT_ONINIT === 'function') {
                 CHAT_ONINIT("error");
             }
@@ -129,14 +147,14 @@ function ApplozicSidebox() {
             script.id = "applozic-" + data.name;
             if (callback) {
                 if (script.readyState) { // IE
-                    script.onreadystatechange = function() {
+                    script.onreadystatechange = function () {
                         if (script.readyState === "loaded" || script.readyState === "complete") {
                             script.onreadystatechange = null;
                             callback();
                         }
                     };
                 } else { // Others
-                    script.onload = function() {
+                    script.onload = function () {
                         callback();
                     };
                 }
@@ -144,6 +162,7 @@ function ApplozicSidebox() {
             body.appendChild(script);
         } catch (e) {
             console.log("Plugin loading error. Refresh page.");
+            console.log(e);
             if (typeof CHAT_ONINIT === 'function') {
                 CHAT_ONINIT("error");
             }
@@ -152,10 +171,10 @@ function ApplozicSidebox() {
     }
     function mckInitPluginScript() {
         try {
-            $.each(mck_script_loader1, function(i, data) {
-                if (data.name === "common") {
+            $.each(mck_script_loader1, function (i, data) {
+                if (data.name === "mck-common") {
                     try {
-                       var options = applozic._globals;
+                        var options = applozic._globals;
                         if (typeof options !== 'undefined' && options.locShare === true) {
                             mckLoadScript(data, mckLoadScript2);
                         } else {
@@ -173,7 +192,7 @@ function ApplozicSidebox() {
                             }
                             if (options.googleApiKey) {
                                 var url = data.url + "&key=" + options.googleApiKey;
-                                mckLoadScript({'name': data.name, 'url': url});
+                                mckLoadScript({ 'name': data.name, 'url': url });
                             }
                         } else {
                             mckLoadScript(data);
@@ -185,13 +204,14 @@ function ApplozicSidebox() {
                     mckLoadScript(data);
                 }
             });
-             if (typeof applozic._globals !== 'undefined'&& applozic._globals.video === true) {
-                          $.each(mck_videocall, function(i, data) { 
-                          mckLoadScript(data.url);
-                 });
-               }
+            if (typeof applozic._globals !== 'undefined' && applozic._globals.video === true) {
+                $.each(mck_videocall, function (i, data) {
+                    mckLoadScript(data);
+                });
+            }
         } catch (e) {
             console.log("Plugin loading error. Refresh page.");
+            console.log(e);
             if (typeof CHAT_ONINIT === 'function') {
                 CHAT_ONINIT("error");
             }
@@ -200,13 +220,14 @@ function ApplozicSidebox() {
     }
     function mckLoadScript2() {
         try {
-            $.each(mck_script_loader2, function(i, data) {
+            $.each(mck_script_loader2, function (i, data) {
                 if (data.name === "locationpicker") {
                     mckLoadScript(data, mckLoadAppScript);
                 }
             });
         } catch (e) {
             console.log("Plugin loading error. Refresh page.");
+            console.log(e);
             if (typeof CHAT_ONINIT === 'function') {
                 CHAT_ONINIT("error");
             }
@@ -221,20 +242,21 @@ function ApplozicSidebox() {
             script.src = MAIN_PATH + "/js/app/sidebox/applozic.sidebox.js";
             script.id = "applozic-sidebox";
             if (script.readyState) { // IE
-                script.onreadystatechange = function() {
+                script.onreadystatechange = function () {
                     if (script.readyState === "loaded" || script.readyState === "complete") {
                         script.onreadystatechange = null;
                         mckInitSidebox();
                     }
                 };
             } else { // Others
-                script.onload = function() {
+                script.onload = function () {
                     mckInitSidebox();
                 };
             }
             body.appendChild(script);
         } catch (e) {
             console.log("Plugin loading error. Refresh page.");
+            console.log(e);
             if (typeof CHAT_ONINIT === 'function') {
                 CHAT_ONINIT("error");
             }
@@ -247,14 +269,23 @@ function ApplozicSidebox() {
             if (typeof options !== 'undefined') {
                 options.ojq = $original;
                 options.obsm = oModal;
+
                 $applozic.fn.applozic(options);
             }
         } catch (e) {
             console.log("Plugin loading error. Refresh page.");
+            console.log(e);
             if (typeof CHAT_ONINIT === 'function') {
                 CHAT_ONINIT("error");
             }
             return false;
         }
+    }
+    function getRandomId() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (var i = 0; i < 32; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        return text;
     }
 }
