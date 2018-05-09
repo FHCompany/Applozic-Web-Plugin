@@ -1,7 +1,7 @@
 var MCK_GROUP_MAP = [];
 var MCK_CLIENT_GROUP_MAP = [];
 window.onload = function() {
-	var Viewer = window.Viewer;
+    var Viewer = window.Viewer;
 }
 (function($applozic, w, d) {
     "use strict";
@@ -1069,11 +1069,8 @@ window.onload = function() {
         _this.uploadFile = function(file) {
             mckFileService.uploadFile(file);
         };
-
-
         _this.audioAttach = function(file) {
             mckFileService.audioRecoder(file);
-
         };
         _this.loadGroupTab = function(tabId) {
             if (typeof tabId === 'undefined' || tabId === '') {
@@ -1170,15 +1167,12 @@ window.onload = function() {
                 }
             }
         };
-
         _this.loadContacts = function(contacts) {
             mckMessageLayout.loadContacts(contacts);
         };
-
         _this.loadContactsForContactList = function (contacts) {
             return mckMessageLayout.loadContactsForContactList(contacts);
         };
-
         _this.setOffline = function() {
             if (typeof window.Applozic.ALSocket !== 'undefined') {
                 window.Applozic.ALSocket.sendStatus(0);
@@ -1234,7 +1228,6 @@ window.onload = function() {
            MCK_ON_TAB_CLICKED = optns.onTabClicked;
            MCK_CONTACT_NUMBER = optns.contactNumber;
            MCK_APP_MODULE_NAME = optns.appModuleName;
-
            MCK_GETTOPICDETAIL = optns.getTopicDetail;
            MCK_FILEMAXSIZE = optns.maxAttachmentSize;
            MCK_MSG_VALIDATION = optns.validateMessage;
@@ -1268,7 +1261,6 @@ window.onload = function() {
            IS_AUTO_TYPE_SEARCH_ENABLED = (typeof optns.autoTypeSearchEnabled === "boolean") ? optns.autoTypeSearchEnabled : true;
            MCK_CHECK_USER_BUSY_STATUS = (typeof optns.checkUserBusyWithStatus === "boolean") ? (optns.checkUserBusyWithStatus) : false;
            IS_LAUNCH_ON_UNREAD_MESSAGE_ENABLED = (typeof optns.launchOnUnreadMessage === "boolean") ? optns.launchOnUnreadMessage : false;
-
        }
        _this.logout = function() {
           if (typeof window.Applozic.ALSocket !== 'undefined') {
@@ -1279,30 +1271,29 @@ window.onload = function() {
               $applozic("#mck-sidebox-launcher").hide();
           }
           IS_LOGGED_IN = false;
-					sessionStorage.clear();
-					localStorage.clear();
-      };
-
-      _this.createFriendContactList = function(params) {
-          mckContactService.createFriendList(params);
-      };
-      _this.getFriendContactList = function(params) {
-        var friendListGroupName;
-        if (typeof params.groupName !== 'undefined') {
-          friendListGroupName = params.groupName;
+          sessionStorage.clear();
+          localStorage.clear();
         };
-        var friendListGroupType;
-        if (params.groupType) {
-          friendListGroupType = params.groupType;
+        _this.createFriendContactList = function(params) {
+            mckContactService.createFriendList(params);
         };
-           mckContactService.getFriendList(friendListGroupName,friendListGroupType);
-      };
-      _this.removeUserFromFriendContactList = function(param) {
-           mckContactService.removeUserFromFriendList(param);
-     };
-     _this.deleteFriendContactList = function(param) {
-           mckContactService.deleteFriendList(param);
-      };
+        _this.getFriendContactList = function(params) {
+            var friendListGroupName;
+            if (typeof params.groupName !== 'undefined') {
+                friendListGroupName = params.groupName;
+            };
+            var friendListGroupType;
+            if (params.groupType) {
+                friendListGroupType = params.groupType;
+            };
+            mckContactService.getFriendList(friendListGroupName,friendListGroupType);
+        };
+        _this.removeUserFromFriendContactList = function(param) {
+            mckContactService.removeUserFromFriendList(param);
+        };
+        _this.deleteFriendContactList = function(param) {
+            mckContactService.deleteFriendList(param);
+        };
         _this.setOnline = function() {
             if (typeof window.Applozic.ALSocket !== 'undefined') {
                 window.Applozic.ALSocket.sendStatus(1);
@@ -5303,7 +5294,16 @@ window.onload = function() {
                     $mck_contact_search_input.keypress(function (e) {
                         if (e.which === 13) {
                             var userId = $mck_contact_search_input.val();
-                            if (userId) {
+                            var userExists = false;
+                            $applozic.each(MCK_CONTACT_ARRAY, function(i, contact) {
+                                if (userId === contact.name || userId === contact.displayName) {
+                                    userId = contact.contactId;
+                                    userExists = true;
+                                } else if (userId === contact.contactId) {
+                                    userExists = true;
+                                }
+                            });
+                            if (userId && userExists) {
                                 if ((MCK_SELF_CHAT_DISABLE === true && userId !== MCK_USER_ID) || MCK_SELF_CHAT_DISABLE !== true) {
                                     userId = (typeof userId !== 'undefined' && userId !== '') ? userId.toString() : '';
                                     if (userId) {

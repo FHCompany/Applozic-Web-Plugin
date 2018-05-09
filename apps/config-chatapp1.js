@@ -22,52 +22,34 @@ function ApplozicSidebox() {
     }, {
         "name": "mck-sidebox", "url": MAIN_PATH + "/css/app/sidebox/applozic.sidebox.css"
     }, {
-        "name": "viewer", "url": MAIN_PATH + "/css/app/sidebox/viewer.css"
-    }, {
         "name": "custom", "url": CUSTOM_PATH + "/style.css"
     }];
     var mck_script_loader1 = [{
-        "name": "viewer", "url": MAIN_PATH + "/js/viewer.js"
-    }, {
-        "name": "plugins", "url": MAIN_PATH + "/js/applozic.plugins.min.js"
-    }, {
         "name": "widget", "url": MAIN_PATH + "/js/applozic.widget.min.js"
     }, {
-        "name": "emojis", "url": MAIN_PATH + "/js/applozic.emojis.min.js"
+        "name": "plugins", "url": MAIN_PATH + "/js/applozic.plugins.min.js"
     }, {
         "name": "socket", "url": MAIN_PATH + "/js/applozic.socket.min.js"
     }, {
         "name": "maps", "url": "https://maps.google.com/maps/api/js?key=" + googleApiKey + "&libraries=places"
     }, {
-        "name": "aes", "url": MAIN_PATH + "/js/applozic.aes.js"
+        "name": "emojis", "url": MAIN_PATH + "/js/applozic.emojis.min.js"
     }, {
-        "name": "utils", "url": MAIN_PATH + "/js/app/modules/applozic.utils.js"
-    }, {
-        "name": "mck-common", "url": MAIN_PATH + "/js/app/applozic.common.js"
-    }, {
-        "name": "modules-chat", "url": MAIN_PATH + "/js/app/modules/applozic.chat.js"
-    }, {
-        "name": "modules-storage", "url": MAIN_PATH + "/js/app/modules/storage/applozic.storage.js"
-    }, {
-        "name": "modules-api", "url": MAIN_PATH + "/js/app/modules/api/applozic.api.js"
-    }, {
-        "name": "modules-socket", "url": MAIN_PATH + "/js/app/modules/socket/applozic.socket.js"
-    }, {
-        "name": "modules-notifications", "url": MAIN_PATH + "/js/app/modules/socket/applozic.socket.js"
-    }];
-    var mck_script_loader2 = [{
-        "name": "locationpicker", "url": MAIN_PATH + "/js/locationpicker.jquery.min.js"
-    }];
-    var mck_videocall = [{
         "name": "video_howler", "url": "https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.2/howler.min.js"
     }, {
         "name": "video_ringtone", "url": MAIN_PATH + "/js/app/call/mck-ringtone-service.js"
     }, {
+        "name": "mck-common", "url": MAIN_PATH + "/js/app/applozic.common.js"
+    }, {
+        "name": "aes", "url": MAIN_PATH + "/js/applozic.aes.js"
+    },];
+    var mck_script_loader2 = [{
+        "name": "locationpicker", "url": MAIN_PATH + "/js/locationpicker.jquery.min.js"
+    }];
+    var mck_videocall = [{
         "name": "video_twilio", "url": MAIN_PATH + "/js/app/call/twilio-video.js"
     }, {
         "name": "video_videocall", "url": MAIN_PATH + "/js/app/call/videocall.js"
-    }, {
-        "name": "modules-videocall", "url": MAIN_PATH + "/js/app/modules/socket/applozic.socket.js"
     }];
     this.load = function () {
         try {
