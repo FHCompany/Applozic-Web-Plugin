@@ -5331,7 +5331,16 @@ window.onload = function() {
                     $applozic(d).on('click', '.mck-contact-search-link', function (e) {
                         e.preventDefault();
                         var tabId = $mck_contact_search_input.val();
-                        if (tabId !== '') {
+                        var userExists = false;
+                        $applozic.each(MCK_CONTACT_ARRAY, function(i, contact) {
+                            if (tabId === contact.name || tabId === contact.displayName) { 
+                                tabId = contact.contactId; 
+                                userExists = true; 
+                            } else if (tabId === contact.contactId) { 
+                                userExists = true; 
+                            } 
+                        }); 
+                        if (tabId !== '' && userExists) {
                             if ((MCK_SELF_CHAT_DISABLE === true && tabId !== MCK_USER_ID) || MCK_SELF_CHAT_DISABLE !== true) {
                                 mckMessageLayout.loadTab({
                                     tabId: tabId,
