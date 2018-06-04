@@ -22,34 +22,38 @@ function ApplozicSidebox() {
     }, {
         "name": "mck-sidebox", "url": MAIN_PATH + "/css/app/sidebox/applozic.sidebox.css"
     }, {
+        "name": "km-login-model", "url": APPLOZIC_PATH + "/sidebox/css/app/km-login-model.css"
+    }, {
         "name": "custom", "url": CUSTOM_PATH + "/style.css"
     }];
-    var mck_script_loader1 = [{
-        "name": "widget", "url": MAIN_PATH + "/js/applozic.widget.min.js"
+    var mck_script_loader1 = [ /* {
+        "name": "jquery-template", "url": APPLOZIC_PATH + "/sidebox/js/app/applozic.jquery.js"
     }, {
-        "name": "plugins", "url": MAIN_PATH + "/js/applozic.plugins.min.js"
-    }, {
-        "name": "socket", "url": MAIN_PATH + "/js/applozic.socket.min.js"
-    }, {
-        "name": "maps", "url": "https://maps.google.com/maps/api/js?key=" + googleApiKey + "&libraries=places"
-    }, {
-        "name": "emojis", "url": MAIN_PATH + "/js/applozic.emojis.min.js"
-    }, {
-        "name": "video_howler", "url": "https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.2/howler.min.js"
-    }, {
-        "name": "video_ringtone", "url": MAIN_PATH + "/js/app/call/mck-ringtone-service.js"
-    }, {
-        "name": "mck-common", "url": MAIN_PATH + "/js/app/applozic.common.js"
-    }, {
-        "name": "aes", "url": MAIN_PATH + "/js/applozic.aes.js"
-    },];
+        "name": "mck-common", "url": APPLOZIC_PATH + "/sidebox/js/app/applozic.chat.min.js"
+    },*/ {
+            "name": "widget", "url": MAIN_PATH + "/js/applozic.widget.min.js"
+        }, {
+            "name": "plugins", "url": MAIN_PATH + "/js/applozic.plugins.min.js"
+        }, {
+            "name": "socket", "url": MAIN_PATH + "/js/applozic.socket.min.js"
+        }, {
+            "name": "maps", "url": "https://maps.google.com/maps/api/js?key=" + googleApiKey + "&libraries=places"
+        }, {
+            "name": "emojis", "url": MAIN_PATH + "/js/applozic.emojis.min.js"
+        }, {
+            "name": "video_howler", "url": "https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.2/howler.min.js"
+        }, /*{ 
+            "name": "video_ringtone", "url": APPLOZIC_PATH + "/sidebox/js/app/mck-ringtone-service.js"
+    },*/ {
+            "name": "aes", "url": MAIN_PATH + "/js/applozic.aes.js"
+        }, {
+            "name": "cookie", "url": APPLOZIC_PATH + "/lib/js/js.cookie.js"
+        }];
     var mck_script_loader2 = [{
         "name": "locationpicker", "url": MAIN_PATH + "/js/locationpicker.jquery.min.js"
     }];
     var mck_videocall = [{
         "name": "video_twilio", "url": MAIN_PATH + "/js/app/call/twilio-video.js"
-    }, {
-        "name": "video_videocall", "url": MAIN_PATH + "/js/app/call/videocall.js"
     }];
     this.load = function () {
         try {
@@ -73,7 +77,6 @@ function ApplozicSidebox() {
             head.appendChild(script);
         } catch (e) {
             console.log("Plugin loading error. Refresh page.");
-            console.log(e);
             if (typeof CHAT_ONINIT === 'function') {
                 CHAT_ONINIT("error");
             }
@@ -104,7 +107,6 @@ function ApplozicSidebox() {
             });
         } catch (e) {
             console.log("Plugin loading error. Refresh page.");
-            console.log(e);
             if (typeof CHAT_ONINIT === 'function') {
                 CHAT_ONINIT("error");
             }
@@ -117,7 +119,7 @@ function ApplozicSidebox() {
         style.type = 'text/css';
         style.rel = "stylesheet";
         style.href = data.url;
-        style.id = "applozic-" + data.name;
+        style.id = 'applozic-' + data.name;
         head.appendChild(style);
     }
     function mckLoadScript(data, callback) {
@@ -126,7 +128,7 @@ function ApplozicSidebox() {
             var script = document.createElement('script');
             script.type = 'text/javascript';
             script.src = data.url;
-            script.id = "applozic-" + data.name;
+            script.id = 'applozic-' + data.name;
             if (callback) {
                 if (script.readyState) { // IE
                     script.onreadystatechange = function () {
@@ -154,7 +156,7 @@ function ApplozicSidebox() {
     function mckInitPluginScript() {
         try {
             $.each(mck_script_loader1, function (i, data) {
-                if (data.name === "mck-common") {
+                if (data.name === "cookie") {
                     try {
                         var options = applozic._globals;
                         if (typeof options !== 'undefined' && options.locShare === true) {
@@ -193,7 +195,6 @@ function ApplozicSidebox() {
             }
         } catch (e) {
             console.log("Plugin loading error. Refresh page.");
-            console.log(e);
             if (typeof CHAT_ONINIT === 'function') {
                 CHAT_ONINIT("error");
             }
@@ -209,7 +210,6 @@ function ApplozicSidebox() {
             });
         } catch (e) {
             console.log("Plugin loading error. Refresh page.");
-            console.log(e);
             if (typeof CHAT_ONINIT === 'function') {
                 CHAT_ONINIT("error");
             }
@@ -221,7 +221,7 @@ function ApplozicSidebox() {
             var body = document.getElementsByTagName('body')[0];
             var script = document.createElement('script');
             script.type = 'text/javascript';
-            script.src = MAIN_PATH + "/js/app/sidebox/applozic.sidebox.js";
+            script.src = CHAT_PATH + "/public/applozic.plugin-1.0.js";
             script.id = "applozic-sidebox";
             if (script.readyState) { // IE
                 script.onreadystatechange = function () {
@@ -238,7 +238,6 @@ function ApplozicSidebox() {
             body.appendChild(script);
         } catch (e) {
             console.log("Plugin loading error. Refresh page.");
-            console.log(e);
             if (typeof CHAT_ONINIT === 'function') {
                 CHAT_ONINIT("error");
             }
@@ -255,8 +254,8 @@ function ApplozicSidebox() {
                 $applozic.fn.applozic(options);
             }
         } catch (e) {
-            console.log("Plugin loading error. Refresh page.");
             console.log(e);
+            console.log("Plugin loading error. Refresh page.");
             if (typeof CHAT_ONINIT === 'function') {
                 CHAT_ONINIT("error");
             }
