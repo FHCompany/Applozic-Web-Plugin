@@ -22,7 +22,7 @@ function ApplozicSidebox() {
     }, {
         "name": "mck-sidebox", "url": MAIN_PATH + "/css/app/sidebox/applozic.sidebox.css"
     }, {
-        "name": "km-login-model", "url": APPLOZIC_PATH + "/sidebox/css/app/km-login-model.css"
+        "name": "km-login-model", "url": MAIN_PATH + "/css/km-login-model.css"
     }, {
         "name": "custom", "url": CUSTOM_PATH + "/style.css"
     }];
@@ -47,7 +47,7 @@ function ApplozicSidebox() {
     },*/ {
             "name": "aes", "url": MAIN_PATH + "/js/applozic.aes.js"
         }, {
-            "name": "cookie", "url": APPLOZIC_PATH + "/lib/js/js.cookie.js"
+            "name": "cookie", "url": MAIN_PATH + "/js/js.cookie.js"
         }];
     var mck_script_loader2 = [{
         "name": "locationpicker", "url": MAIN_PATH + "/js/locationpicker.jquery.min.js"
