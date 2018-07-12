@@ -2519,7 +2519,7 @@ mck-sidebox .mck-dropdown-menu>li>a:focus, .mck-dropup-menu>li>a:focus,
 
 .mck-audio-player {
 	width: 180px;
-	height: 40px;
+	margin-bottom: 8px;
 	overflow: hidden;
 	outline: none;
 }
@@ -3742,4 +3742,22 @@ fill:white;
 	margin:10px 0px 5px 0px;
 	width:85%;
 	float:right;
+}
+
+.mck-badge-count {
+	width: auto;
+	height: auto;
+	border-radius: 50px;
+	background-color: red;
+	border: 2px solid #fff;
+	text-align: center;
+	color: white;
+	position: absolute;
+	top: -7px;
+	line-height: 20px;
+	font-size: 14px;
+	padding: 0px 4px;
+	z-index: 2243001;
+	right: 0;
+	min-width: 12px;
 }

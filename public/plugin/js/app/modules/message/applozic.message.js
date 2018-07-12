@@ -134,7 +134,7 @@ function AlMessageService() {
           resp.messages = [];
         } else {
           var messages = data.message;
-          var messageFeeds = new Array();
+           var messageFeeds = new Array();
           $applozic.each(messages, function(i, message) {
             if (typeof callback === "function") {
               callback(message);
@@ -145,7 +145,7 @@ function AlMessageService() {
         if (data.groupFeeds.length > 0) {
           resp.id = data.groupFeeds[0].id;
         }
-        params.callback(resp);
+        params.callback(data);
       },
       error: function(error) {
         resp.status = "error";
@@ -192,7 +192,7 @@ function AlMessageService() {
 
   _this.fetchConversationByTopicId = function(data, callback) {
     window.Applozic.ALApiService.fetchConversationByTopicId({
-      data,
+      data:data,
       success: function(data) {
         if (typeof data === 'object' && data.status === "success") {
           var conversationList = data.response;
@@ -426,6 +426,7 @@ function AlMessageService() {
     var messageFeed = {};
     MCK_FILE_URL = window.Applozic.ALApiService.getFileUrl();
     messageFeed.key = message.key;
+    messageFeed.contentType = message.contentType;
     messageFeed.timeStamp = message.createdAtTime;
     messageFeed.message = message.message;
     messageFeed.from = (message.type === 4) ? message.to : MCK_USER_ID;
