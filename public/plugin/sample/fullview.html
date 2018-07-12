@@ -10,6 +10,8 @@
 <link href="../css/app/fullview/style.css" rel="stylesheet">
 
 <!-- Custom JS -->
+<!-- Your jquery -->
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>-->
 <link rel="stylesheet" href="../css/app/fullview/applozic.plugin.css">
 <script type="text/javascript">
 	var $original;
@@ -98,19 +100,19 @@
 						</div>
 						<ul id="mck-start-new-menu-box"
 							class="mck-dropdown-menu mck-tab-menu-box menu-right" role="menu">
-							<li><a href="#" id="mck-msg-new" class="mck-contact-search menu-item"
+							<li><a href="#" target="_self" id="mck-msg-new" class="mck-contact-search menu-item"
 								title="New Chat">New Chat</a></li>
-							<li><a href="#" class="mck-contact-search menu-item"
+							<li><a href="#" target="_self" class="mck-contact-search menu-item"
 								title="Contacts">Contacts</a></li>
-							<li><a href="#" class="mck-group-search menu-item"
+							<li><a href="#" target="_self" class="mck-group-search menu-item"
 								title="Groups">Groups</a></li>
-							<li><a href="#" id="mck-new-group" class="menu-item"
+							<li><a href="#" target="_self" id="mck-new-group" class="menu-item"
 								title="Create Group">Create Group</a></li>
 						</ul>
 					</div>
 				</div>
 				<div class="top">
-					<span class="mck-search-icon"> <a href="#" role="link"
+					<span class="mck-search-icon"> <a href="#" target="_self" role="link"
 						class="mck-tab-search"> <span class="mck-icon-search"></span>
 					</a>
 					</span> <input type="text" id="mck-search" data-provide="typeahead"
@@ -120,7 +122,7 @@
 					<div id="mck-contact-cell" class="mck-panel-cell">
 						<div class="mck-panel-inner mck-contacts-inner">
 							<ul id="mck-contact-list"
-								class="people mck-contact-list mck-nav mck-nav-tabs mck-nav-stacked">
+								class="people mck-contact-list mck-nav mck-nav-tabs mck-nav-stacked"></ul>
 						</div>
 						<div id="mck-contact-loading" class="mck-loading">
 							<img src="../images/ring.gif">
@@ -133,7 +135,6 @@
 						</div>
 					</div>
 				</div>
-				</ul>
 			</div>
 		</div>
 		<div class="right">
@@ -142,7 +143,7 @@
 					<div id="mck-tab-individual" class="mck-tab-individual mck-row">
 						<div class="blk-lg-8 mck-box-title">
 							<div id="mck-group-tab-title" class="n-vis">
-								<a id="mck-tab-info" href="#" class="mck-tab-info">
+								<a id="mck-tab-info" href="#" target="_self" class="mck-tab-info">
 									<div class="mck-tab-title mck-truncate name"></div>
 									<div class="mck-tab-status mck-truncate n-vis"></div>
 									<div class="mck-typing-box mck-truncate n-vis">
@@ -170,18 +171,18 @@
 								<ul id="mck-tab-menu-list"
 									class="mck-dropdown-menu mck-tab-menu-box menu-right"
 									role="menu">
-									<li class="mck-tab-message-option vis"><a href="#"
+									<li class="mck-tab-message-option vis"><a href="#" target="_self"
 										id="mck-delete-button" class="mck-delete-button menu-item vis"
 										title="Clear Messages"> Clear Messages </a></li>
-									<li id="li-mck-block-user" class="vis"><a href="#"
+									<li id="li-mck-block-user" class="vis"><a href="#" target="_self"
 										id="mck-block-button" class="menu-item" title="Block User">Block
 											User</a></li>
 									<li id="li-mck-group-info" class="mck-group-menu-options n-vis"><a
-										href="#" id="mck-group-info-btn"
+										href="#" target="_self" id="mck-group-info-btn"
 										class="menu-item mck-group-info-btn" title="Group Info">
 											Group Info </a></li>
 									<li id="li-mck-leave-group"
-										class="mck-group-menu-options n-vis"><a href="#"
+										class="mck-group-menu-options n-vis"><a href="#" target="_self"
 										id="mck-leave-group-btn" class="menu-item" title="Exit Group">
 											Exit Group </a></li>
 								</ul>
@@ -288,20 +289,20 @@
 									<div id="mck-btn-attach" class="mck-btn-attach">
 										<div class="mck-dropdown-toggle" data-toggle="mckdropdown"
 											aria-expanded="true">
-											<a href="#" type="button" id="mck-btn-attach"
+											<a href="#" target="_self" type="button" id="mck-btn-attach"
 												class="write-link attach mck-btn-text-panel"
 												aria-expanded="true" title="Attach File"> </a>
 										</div>
 										<ul id="mck-upload-menu-list"
 											class="mck-dropup-menu mck-upload-menu-list" role="menu">
-											<li><a id="mck-file-up" href="#"
+											<li><a id="mck-file-up" href="#" target="_self"
 												class="mck-file-upload menu-item" title="File &amp; Photos">
 
 													<img src="../images/mck-icon-photo.png"
 													class="menu-icon" alt="File &amp; Photos"> <span>Files
 														&amp; Photos</span>
 											</a></li>
-											<li><a id="mck-btn-loc" href="#" class="menu-item"
+											<li><a id="mck-btn-loc" href="#" target="_self" class="menu-item"
 												title="Location"> <img
 													src="../images/mck-icon-marker.png" class="menu-icon"
 													alt="Location"> <span>Location</span>
@@ -309,22 +310,22 @@
 
 										</ul>
 									</div>
-									<a href="#" id="mck-file-up2" type="button"
+									<a href="#" target="_self" id="mck-file-up2" type="button"
 										class="write-link attach n-vis mck-file-upload mck-btn-text-panel"
 										title="Attach File"> </a>
-										<a href="#" id="mck-mike-btn" type="button"
+										<a href="#" target="_self" id="mck-mike-btn" type="button"
 										class="mck-mic-btn mck-mike-btn vis"
 										title="Mic"></a>
-									<a href="#" id="stop-recording" class="mck-stop-btn n-vis "></a>
+									<a href="#" target="_self" id="stop-recording" class="mck-stop-btn n-vis "></a>
 									<div id="audiodiv" class="mck-mic-timer n-vis">
 							       <label id="mck-minutes">00</label>:<label id="mck-seconds">00</label>
                                     </div>
 										 <span id="mck-text-box"
 										contenteditable="true" class="mck-text-box mck-text required"></span>
-										<a href="#" type="submit"
+										<a href="#" target="_self" type="submit"
 										id="mck-msg-sbmt" class="write-link send mck-btn-text-panel"
 										title="Send Message"></a>
-									<a href="#" type="button" id="mck-btn-smiley"
+									<a href="#" target="_self" type="button" id="mck-btn-smiley"
 										class="write-link smiley mck-btn-smiley mck-btn-text-panel"
 										title="Smiley"></a>
 								</form>
@@ -443,7 +444,7 @@
 							</span>
 						</div>
 						<div class="mck-text-center">
-							<a id="mck-btn-group-icon-save" href="#" role="link"
+							<a id="mck-btn-group-icon-save" href="#" target="_self" role="link"
 								class="mck-btn-group-icon-save n-vis" title="Click to save">
 								<img src="../images/mck-icon-save.png" alt="Save">
 							</a>
@@ -456,10 +457,10 @@
 									contenteditable="false">Group title</div>
 							</div>
 							<div class="blk-lg-3 mck-group-name-edit-icon">
-								<a id="mck-group-name-edit" href="#" role="link"
+								<a id="mck-group-name-edit" href="#" target="_self" role="link"
 									class="mck-group-name-edit vis" title="Edit"> <img
 									src="../images/mck-icon-write.png" alt="Edit"></a> <a
-									id="mck-group-name-save" href="#" role="link"
+									id="mck-group-name-save" href="#" target="_self" role="link"
 									class="mck-group-name-save n-vis" title="Click to save"> <img
 									src="../images/mck-icon-save.png" alt="Save"></a>
 							</div>
@@ -472,7 +473,7 @@
 							<div id="mck-group-add-member-box"
 								class="mck-row mck-group-admin-options mck-group-add-member-box n-vis">
 								<a id="mck-group-add-member" class="mck-group-add-member"
-									href="#">
+									href="#" target="_self">
 									<div class="blk-lg-3">
 										<img src="../images/mck-icon-add-member.png"
 											alt="Add Member">
@@ -576,9 +577,9 @@
 						<ul class="mck-nav mck-nav-panel">
 							<li class="mck-nav-item mck-nav-divider"><a
 								id="mck-contact-search-tab"
-								class="mck-nav-link mck-contact-search active" href="#"><strong>Contacts</strong></a></li>
+								class="mck-nav-link mck-contact-search active" href="#" target="_self"><strong>Contacts</strong></a></li>
 							<li class="mck-nav-item"><a id="mck-group-search-tab"
-								class="mck-nav-link mck-group-search" href="#"><strong>Groups</strong></a>
+								class="mck-nav-link mck-group-search" href="#" target="_self"><strong>Groups</strong></a>
 							</li>
 						</ul>
 					</div>
@@ -589,7 +590,7 @@
 							class="mck-input-group blk-lg-12">
 							<input id="mck-contact-search-input" type="text"
 								data-provide="typeahead" placeholder="Search..."/> <span
-								class="mck-search-icon"><a href="#" role="link"
+								class="mck-search-icon"><a href="#" target="_self" role="link"
 								class="mck-contact-search-link"><span
 									class="mck-icon-search"></span></a></span>
 						</div>
@@ -597,7 +598,7 @@
 							class="mck-input-group blk-lg-12 n-vis">
 							<input id="mck-group-search-input" type="text"
 								data-provide="typeahead" placeholder="Search..."/> <span
-								class="mck-search-icon"><a href="#" role="link"
+								class="mck-search-icon"><a href="#" target="_self" role="link"
 								class="mck-group-search-link"><span class="mck-icon-search"></span></a></span>
 						</div>
 					</div>
@@ -646,7 +647,7 @@
 						<div class="mck-input-group blk-lg-12">
 							<input id="mck-group-member-search" type="text"
 								data-provide="typeahead" placeholder="Search..."/> <span
-								class="mck-search-icon"><a href="#" role="link"
+								class="mck-search-icon"><a href="#" target="_self" role="link"
 								class="mck-group-member-search-link"><span
 									class="mck-icon-search"></span></a></span>
 						</div>
