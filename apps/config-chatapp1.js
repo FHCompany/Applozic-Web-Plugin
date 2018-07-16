@@ -17,44 +17,32 @@ var applozicSideBox = new ApplozicSidebox();
 applozicSideBox.load();
 function ApplozicSidebox() {
     var googleApiKey = (typeof applozic._globals !== 'undefined' && applozic._globals.googleApiKey) ? (applozic._globals.googleApiKey) : "AIzaSyDKfWHzu9X7Z2hByeW4RRFJrD9SizOzZt4";
-    var mck_style_loader = [{
-        "name": "mck-combined", "url": MAIN_PATH + "/css/app/sidebox/applozic.combined.min.css"
-    }, {
-        "name": "mck-sidebox", "url": MAIN_PATH + "/css/app/sidebox/applozic.sidebox.css"
-    }, {
-        "name": "km-login-model", "url": MAIN_PATH + "/css/km-login-model.css"
-    }, {
-        "name": "custom", "url": CUSTOM_PATH + "/style.css"
-    }];
-    var mck_script_loader1 = [ /* {
-        "name": "jquery-template", "url": APPLOZIC_PATH + "/sidebox/js/app/applozic.jquery.js"
-    }, {
-        "name": "mck-common", "url": APPLOZIC_PATH + "/sidebox/js/app/applozic.chat.min.js"
-    },*/ {
-            "name": "widget", "url": MAIN_PATH + "/js/applozic.widget.min.js"
-        }, {
-            "name": "plugins", "url": MAIN_PATH + "/js/applozic.plugins.min.js"
-        }, {
-            "name": "socket", "url": MAIN_PATH + "/js/applozic.socket.min.js"
-        }, {
-            "name": "maps", "url": "https://maps.google.com/maps/api/js?key=" + googleApiKey + "&libraries=places"
-        }, {
-            "name": "emojis", "url": MAIN_PATH + "/js/applozic.emojis.min.js"
-        }, {
-            "name": "video_howler", "url": "https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.2/howler.min.js"
-        }, /*{ 
-            "name": "video_ringtone", "url": APPLOZIC_PATH + "/sidebox/js/app/mck-ringtone-service.js"
-    },*/ {
-            "name": "aes", "url": MAIN_PATH + "/js/applozic.aes.js"
-        }, {
-            "name": "cookie", "url": MAIN_PATH + "/js/js.cookie.js"
-        }];
-    var mck_script_loader2 = [{
-        "name": "locationpicker", "url": MAIN_PATH + "/js/locationpicker.jquery.min.js"
-    }];
-    var mck_videocall = [{
-        "name": "video_twilio", "url": MAIN_PATH + "/js/app/call/twilio-video.js"
-    }];
+    var mck_style_loader = [
+        { "name": "combined", "url": MAIN_PATH + "/css/app/sidebox/applozic.combined.min.css" },
+        { "name": "sidebox", "url": MAIN_PATH + "/css/app/sidebox/applozic.sidebox.css" },
+        { "name": "viewer", "url": MAIN_PATH + "/css/app/sidebox/viewer.css" },
+        { "name": "custom", "url": CUSTOM_PATH + "/style.css" }
+    ];
+    var mck_script_loader1 = [
+        { "name": "jquery-template", "url": MAIN_PATH + "/js/app/modules/applozic.jquery.js" },
+        { "name": "common", "url": CHAT_PATH + "/public/applozic.chat.min.js" },
+        { "name": "widget", "url": MAIN_PATH + "/js/applozic.widget.min.js" },
+        { "name": "plugins", "url": MAIN_PATH + "/js/applozic.plugins.min.js" },
+        { "name": "socket", "url": MAIN_PATH + "/js/applozic.socket.min.js" },
+        { "name": "emojis", "url": MAIN_PATH + "/js/applozic.emojis.min.js" },
+        { "name": "viewer", "url": MAIN_PATH + "/js/viewer.js" },
+        { "name": "aes", "url": MAIN_PATH + "/js/applozic.aes.js" },
+        { "name": "cookie", "url": MAIN_PATH + "/js/js.cookie.js" }
+    ];
+    var mck_script_loader2 = [
+        { "name": "maps", "url": "https://maps.google.com/maps/api/js?key=" + googleApiKey + "&libraries=places" },
+        { "name": "locationpicker", "url": MAIN_PATH + "/js/locationpicker.jquery.min.js" }
+    ];
+    var mck_videocall = [
+        { "name": "video-howler", "url": "https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.2/howler.min.js" },
+        { "name": "video-ringtone", "url": MAIN_PATH + "/js/app/call/mck-ringtone-service.js" },
+        { "name": "video-twilio", "url": MAIN_PATH + "/js/twilio-video.js" }
+    ];
     this.load = function () {
         try {
             var head = document.getElementsByTagName('head')[0];
@@ -221,7 +209,7 @@ function ApplozicSidebox() {
             var body = document.getElementsByTagName('body')[0];
             var script = document.createElement('script');
             script.type = 'text/javascript';
-            script.src = CHAT_PATH + "/public/applozic.plugin-1.0.js";
+            script.src = MAIN_PATH + "/js/app/sidebox/applozic.sidebox.js";
             script.id = "applozic-sidebox";
             if (script.readyState) { // IE
                 script.onreadystatechange = function () {

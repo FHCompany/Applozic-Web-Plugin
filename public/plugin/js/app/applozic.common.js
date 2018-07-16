@@ -29,14 +29,18 @@ function MckUtils() {
         }).done(function(data) {});
     }
     _this.showElement = function(element) {
-        if (element) {
+
+      if (typeof element !== "object" &&(typeof element !=='undefined' && typeof element !== null) ||(element && typeof element === "object" && element.length !==0)){
+
             element.classList.remove('n-vis');
             element.classList.add('vis');
         }
 
     }
     _this.hideElement= function(element) {
-        if (element) {
+
+      if (typeof element !== "object" &&(typeof element !=='undefined' && typeof element !== null) ||(element && typeof element === "object" && element.length !==0)){
+
             element.classList.remove('vis');
             element.classList.add('n-vis');
         }
@@ -44,8 +48,13 @@ function MckUtils() {
     _this.badgeCountOnLaucher = function(enablebadgecount,totalunreadCount) {
     	   var element = document.getElementById("applozic-badge-count");
        if(enablebadgecount === true && totalunreadCount > 0){
-    	       element.innerHTML = totalunreadCount;
-    	       element.classList.add("mck-badge-count");
+         if(totalunreadCount < 99){
+             element.innerHTML = totalunreadCount;
+           }
+          else {
+            element.innerHTML = "99+";
+          }
+          element.classList.add("mck-badge-count");
         }
         if(enablebadgecount === true && totalunreadCount === 0){
         	   element.innerHTML ="";
@@ -150,7 +159,15 @@ function MckUtils() {
 
     this.encryptionKey = null;
     this.getEncryptionKey = function() {
+       var setEncryptionKey;
+      if(this.encryptionKey === null) {
+        setEncryptionKey = ALStorage.getEncryptionKey();
+        return setEncryptionKey;
+      }
+      else {
         return this.encryptionKey;
+      }
+
     }
     this.setEncryptionKey = function(key) {
         this.encryptionKey = key;
@@ -171,13 +188,13 @@ function MckUtils() {
     _this.ajax = function(options) {
         //var reqOptions = Object.assign({}, options);
         var reqOptions = $applozic.extend({}, {}, options);
-        if (this.getEncryptionKey()) {
-            var key = aesjs.util.convertStringToBytes(this.getEncryptionKey());
-            var iv = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+        if (!(options.skipEncryption === true) && mckUtils.getEncryptionKey()) {
+            var key = aesjs.util.convertStringToBytes(mckUtils.getEncryptionKey());
+            var iv = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
             if (reqOptions.type.toLowerCase() === 'post') {
                 // encrypt Data
-                while (options.data.length % 16 != 0) {
+                while (options.data && options.data.length % 16 != 0) {
                     options.data += ' ';
                 }
                 var aesCtr = new aesjs.ModeOfOperation.ecb(key);
@@ -187,7 +204,7 @@ function MckUtils() {
                 reqOptions.data = btoa(encryptedStr);
             }
 
-            reqOptions.success = function(data) {
+            reqOptions.success = function (data) {
                 // Decrypt response
                 var decodedData = atob(data);
                 var arr = [];
@@ -198,13 +215,13 @@ function MckUtils() {
                 var decryptedBytes = aesCtr.decrypt(arr);
                 var res = aesjs.util.convertBytesToString(decryptedBytes);
                 res = res.replace(/\\u0000/g, '').replace(/^\s*|\s*[\x00-\x10]*$/g, '');
-                if (_this.isJsonString(res)) {
+                if (mckUtils.isJsonString(res)) {
                     options.success(JSON.parse(res));
                 } else {
                     options.success(res);
                 }
             }
-        }
+      }
         $applozic.ajax(reqOptions);
     };
 
