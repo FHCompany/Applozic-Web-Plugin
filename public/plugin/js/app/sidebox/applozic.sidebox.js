@@ -1,5 +1,6 @@
 var MCK_GROUP_MAP = [];
 var MCK_CLIENT_GROUP_MAP = [];
+var LANGUAGE = window.localStorage.getItem('language').replace('_', '-');
 window.onload = function() {
     var Viewer = window.Viewer;
 }
@@ -4325,7 +4326,8 @@ window.onload = function() {
                     }
                 }
 
-                mckMessageService.loadMessageList(params,_this.openConversation);
+                mckMessageService.loadMessageList(params, callback); 
+                _this.openConversation(); 
             };
             _this.setProductProperties = function(topicDetail, topicId) {
                 $mck_product_title.html(topicDetail.title);
@@ -4570,7 +4572,16 @@ window.onload = function() {
                     nameTextExpr: nameTextExpr,
                     msgFloatExpr: floatWhere,
                     replyIdExpr: replyId,
-                    createdAtTimeExpr: mckDateUtils.getDate(msg.createdAtTime),
+                    createdAtTimeExpr: function () {
+                        console.log('custom createdAtTimeExpr');
+                        var createdAt = new Date(parseInt(msg.createdAtTime, 10));
+                        var fullFormat = { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };
+                        var onlyTimeFormat = { hour: "2-digit", minute: "2-digit" };
+                        var monthHourFormat = { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }
+                
+                        return new Date().getFullYear() > createdAt.getFullYear() ? createdAt.toLocaleTimeString(LANGUAGE, fullFormat) :
+                            new Date().getMonth() > createdAt.getMonth() ? createdAt.toLocaleTimeString(LANGUAGE, monthHourFormat) : createdAt.toLocaleTimeString(LANGUAGE, onlyTimeFormat);
+                    },
                     msgFeatExpr: msgFeatExpr,
                     replyMessageParametersExpr: replyMessageParameters,
                     downloadMediaUrlExpr: alFileService.getFileAttachment(msg),
@@ -7861,8 +7872,8 @@ window.onload = function() {
                 $mck_preview_msg_content = $applozic("#mck-msg-preview .mck-preview-msg-content");
                 $mck_preview_file_content = $applozic("#mck-msg-preview .mck-preview-file-content");
             };
-
-						_this.notifyUser = function(message) {
+            
+            _this.notifyUser = function(message) {
                 if (message.type === 7) {
                     return;
                 }
