@@ -174,7 +174,7 @@ _this.generateCloudUrl = function(key, callback) {
         return '<a href="#" target="_self"><audio controls class="mck-audio-player">' + '<source src="' + _this.getFileurl(msg) + '" type="audio/ogg">' + '<source src="' + _this.getFileurl(msg) + '" type="audio/mpeg"></audio>' + '<p class="mck-file-tag"></p></a>';
       }
       } else {
-        return '<a href="#" role="link" class="file-preview-link" target="_blank"></a>';
+        return '<a href="#" role="link" class="file-preview-link" target="_self"></a>';
       }
     }
     return '';
