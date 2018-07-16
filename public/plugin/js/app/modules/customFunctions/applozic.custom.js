@@ -9,6 +9,7 @@ AlCustomService.logout = function() {
         ALStorage.clearMckMessageArray();
         ALStorage.clearAppHeaders();
         ALStorage.clearMckContactNameArray();
+        ALStorage.removeEncryptionKey();
         w.sessionStorage.clear();
    }
    IS_LOGGED_IN = false;

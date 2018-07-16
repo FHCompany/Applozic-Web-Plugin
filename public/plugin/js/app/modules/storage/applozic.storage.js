@@ -5,9 +5,25 @@ var ALStorage = (function (win) {
     var MCK_CONTACT_NAME_ARRAY = [];
     var FRIEND_LIST_GROUP_NAME;
     var FRIEND_LIST_GROUP_TYPE;
+    var ENCRYPTION_KEY;
 
     return {
 
+        setEncryptionKey: function (encryptionKey) {
+            if (typeof (w.sessionStorage) !== 'undefined') {
+                w.sessionStorage.setItem('encryptionKey', encryptionKey);
+            } else {
+                ENCRYPTION_KEY = encryptionKey;
+            }
+        },
+        getEncryptionKey: function (encryptionKey) {
+            return (typeof (w.sessionStorage) !== 'undefined') ? w.sessionStorage.getItem("encryptionKey") : ENCRYPTION_KEY;
+        },
+        removeEncryptionKey: function () {
+            if (typeof (w.sessionStorage) !== 'undefined') {
+                w.sessionStorage.removeItem('encryptionKey');
+            }
+        },
         updateLatestMessage: function (message) {
             var messageArray = [];
             messageArray.push(message);
