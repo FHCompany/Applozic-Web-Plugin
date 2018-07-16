@@ -5,6 +5,7 @@
         var MCK_APP_ID = "";
         var mckUtils = new MckUtils();
         var MCK_BASE_URL = 'https://apps.applozic.com';
+        var MCK_FILE_URL = 'https://applozic.appspot.com'
         var INITIALIZE_APP_URL = "/v2/tab/initialize.page";
         var MESSAGE_LIST_URL = "/rest/ws/message/list";
         var MESSAGE_SEND_URL = "/rest/ws/message/send";
@@ -50,6 +51,7 @@
         var FILE_AWS_UPLOAD_URL = "/rest/ws/upload/file";
         var ATTACHMENT_UPLOAD_URL = "/rest/ws/upload/image";
         var PUSH_NOTIFICATION_LOGOUT = "/rest/ws/device/logout";
+        var MCK_SW_REGISTER_URL = "/rest/ws/plugin/update/sw/id";
         var ACCESS_TOKEN;
         var DEVICE_KEY;
         var APP_MODULE_NAME;
@@ -63,7 +65,9 @@
             }
             return url.substring(0, url.length - 1)
         }
-
+        ALApiService.getFileUrl = function(){
+          return MCK_FILE_URL;
+        }
         ALApiService.initServerUrl = function (serverUrl) {
             MCK_BASE_URL = serverUrl;
         }
@@ -77,9 +81,9 @@
         ALApiService.login = function (options) {
             MCK_APP_ID = options.data.alUser.applicationId;
             MCK_BASE_URL = options.data.baseUrl ? options.data.baseUrl : "https://apps.applozic.com";
-
             ALApiService.ajax({
                 url: MCK_BASE_URL + INITIALIZE_APP_URL,
+                skipEncryption: true,
                 type: 'post',
                 async: (typeof options.async !== 'undefined') ? options.async : true,
                 data: JSON.stringify(options.data.alUser),
@@ -136,14 +140,13 @@
             }
 
             var reqOptions = extend({}, {}, options);
-
-            if (mckUtils.getEncryptionKey()) {
-                var key = aesjs.util.convertStringToBytes(this.getEncryptionKey());
+            if (!(options.skipEncryption === true) && mckUtils.getEncryptionKey()) {
+                var key = aesjs.util.convertStringToBytes(mckUtils.getEncryptionKey());
                 var iv = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
                 if (reqOptions.type.toLowerCase() === 'post') {
                     // encrypt Data
-                    while (options.data.length % 16 != 0) {
+                    while (options.data && options.data.length % 16 != 0) {
                         options.data += ' ';
                     }
                     var aesCtr = new aesjs.ModeOfOperation.ecb(key);
@@ -164,13 +167,13 @@
                     var decryptedBytes = aesCtr.decrypt(arr);
                     var res = aesjs.util.convertBytesToString(decryptedBytes);
                     res = res.replace(/\\u0000/g, '').replace(/^\s*|\s*[\x00-\x10]*$/g, '');
-                    if (_this.isJsonString(res)) {
+                    if (mckUtils.isJsonString(res)) {
                         options.success(JSON.parse(res));
                     } else {
                         options.success(res);
                     }
                 }
-            }
+          }
             var request = new XMLHttpRequest();
             var responsedata;
             var asyn = true;
@@ -513,7 +516,7 @@
          * Applozic.ALApiService.getGroupInfo({data:{group:{groupId:"237437"}}, success: function(response){console.log(response);}, error: function() {}});
          */
         ALApiService.getGroupInfo = function (options) {
-            var groupId = (options.data.group.groupId) ? "?groupId=" + options.data.group.groupId : "?clientGroupId=" + options.group.clientGroupId;
+            var groupId = (options.data.groupId) ? "?groupId=" + options.data.groupId : "?clientGroupId=" + options.data.clientGroupId;
             ALApiService.ajax({
                 url: MCK_BASE_URL + GROUP_INFO_URL + groupId,
                 type: 'get',
@@ -571,7 +574,7 @@
             ALApiService.ajax({
                 url: MCK_BASE_URL + GROUP_REMOVE_MEMBER_URL,
                 type: 'POST',
-                data: JSON.stringify(options.data.group),
+                data: JSON.stringify(options.data),
                 async: (typeof options.async !== 'undefined') ? options.async : true,
                 global: false,
                 contentType: 'application/json',
@@ -599,7 +602,7 @@
             ALApiService.ajax({
                 url: MCK_BASE_URL + GROUP_LEFT_URL,
                 type: 'POST',
-                data: JSON.stringify(options.data.group),
+                data: JSON.stringify(options.data),
                 async: (typeof options.async !== 'undefined') ? options.async : true,
                 global: false,
                 contentType: 'application/json',
@@ -627,7 +630,7 @@
             ALApiService.ajax({
                 url: MCK_BASE_URL + GROUP_UPDATE_URL,
                 type: 'POST',
-                data: JSON.stringify(options.data.group),
+                data: JSON.stringify(options.data),
                 async: (typeof options.async !== 'undefined') ? options.async : true,
                 global: false,
                 contentType: 'application/json',
@@ -748,13 +751,7 @@
                 }
             });
         }
-        /**
-                * Create Open FriendList
-                * Usage Example:
-                * Applozic.ALApiService.createOpenFriendList({data:{group:{groupName:"groupName",type: 9,
-                                                       groupMemberList: ["debug2", "debug3","videocall-1"]}},
-                                                             success: function(response) {console.log(response);}, error: function() {} });
-                */
+
         ALApiService.createOpenFriendList = function (options) {
             ALApiService.ajax({
                 url: MCK_BASE_URL + FRIEND_LIST_URL + options.data.group.groupName + "/add/members",
@@ -945,8 +942,9 @@
                                                       success: function(response) {console.log(response);}, error: function() {} });
          */
         ALApiService.getContactList = function (options) {
+            var baseurl = options.baseUrl ? options.baseUrl : MCK_BASE_URL;
             ALApiService.ajax({
-                url: MCK_BASE_URL + USER_FILTER + options.url,
+                url: baseurl+ options.url,
                 type: 'GET',
                 async: (typeof options.async !== 'undefined') ? options.async : true,
                 global: false,
@@ -1119,6 +1117,7 @@
         ALApiService.fileUpload = function (options) {
             ALApiService.ajax({
                 type: "GET",
+                skipEncryption: true,
                 url: options.data.url,
                 global: false,
                 data: "data=" + new Date().getTime(),
@@ -1153,8 +1152,7 @@
                 if (file) {
                     message.fileMeta = JSON.parse(file);
                     Applozic.ALApiService.sendMessage({
-                        data:
-                            { message },
+                        data:message,
                         success: function (response) { console.log(response); },
                         error: function () { }
                     });
@@ -1183,6 +1181,7 @@
         ALApiService.deleteFileMeta = function (options) {
             ALApiService.ajax({
                 url: options.data.url,
+                skipEncryption: true,
                 type: 'post',
                 success: function (response) {
                     if (options.success) {
@@ -1257,6 +1256,7 @@
             var subscriptionId = options.data.subscriptionId;
             ALApiService.ajax({
                 url: MCK_BASE_URL + MCK_SW_REGISTER_URL,
+                skipEncryption: true,
                 type: 'post',
                 data: 'registrationId=' + subscriptionId,
                 success: function (data) { },

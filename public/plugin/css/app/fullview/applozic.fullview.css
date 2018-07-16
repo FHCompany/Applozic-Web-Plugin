@@ -84,7 +84,7 @@
 }
 
 #mck-reply-msg {
-	padding-left: : 3px;
+	padding-left:3px;
 }
 
 .mck-verticalline {
@@ -3103,7 +3103,7 @@ ol, ul {
 
 .mck-audio-player {
 	width: 300px;
-	height: 40px;
+	margin-bottom: 8px;
 	overflow: hidden;
 	outline: none;
 }
@@ -3633,4 +3633,18 @@ width:65%;
 }
 .mck-local-media-border{
 	border:solid;
+}
+.mck-badge-count {
+  width: auto;
+  height: 20px;
+  border-radius: 50px;
+  background-color: red;
+  text-align: center;
+  color: white;
+  position: absolute;
+  top: 0;
+  line-height: 20px;
+  font-size: 16px;
+  padding: 0 5px;
+  z-index: 2243001
 }

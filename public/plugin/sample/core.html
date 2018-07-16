@@ -1,6 +1,7 @@
 <html>
 	<head>
-		<script type="text/javascript" src="../../concat-min.js"></script>
+		<script src="../js/jquery.min.js"></script>
+		<script type="text/javascript" src="../../applozic.chat.min.js"></script>
 
 		<!-- Custom JS -->
 		<script>
@@ -12,7 +13,7 @@
 	<div>Sample without UI to get data from Applozic Server APIs and connect to websocket connection.</div>
 	<div>Go to src/js/app folder and add the following js files:</div>
 	<ul>
-		<li>concat.min.js</li>
+		<li>applozic.chat.min.js</li>
 	</ul>
 
 	<div>See modules/api/applozic.api.js file for all available functions.</div>.
@@ -41,12 +42,11 @@
 				'connectToSocket': function() {},
 				'onMessage': function(resp) {
 					console.log(resp);
-					onMessage(resp);
 				}
 			};
 
 			window.Applozic.ALApiService.login({
-				data: { baseUrl : 'https://apps-test.applozic.com',
+				data: { baseUrl : 'https://apps.applozic.com',
 					alUser:
 							{userId: 'PASS_USER_ID_HERE', password: 'PASS_PASSWORD_HERE', displayName: 'PASS_USER_DISPLAY_NAME', appVersionCode: 108, applicationId: 'applozic-sample-app'}
 				},
