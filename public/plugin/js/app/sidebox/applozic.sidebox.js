@@ -2033,6 +2033,7 @@ window.onload = function() {
                 });
                 MCK_TOKEN = data.token;
                 mckUtils.setEncryptionKey(data.encryptionKey);
+								ALStorage.setEncryptionKey(data.encryptionKey);
                 MCK_USER_ID = data.userId;
                 USER_COUNTRY_CODE = data.countryCode;
                 USER_DEVICE_KEY = data.deviceKey;
@@ -3102,7 +3103,7 @@ window.onload = function() {
 											isTopPanelAdded: isTopPanelAdded
 									};
 									_this.submitMessage(messagePxy, optns);
-							} else if(messagePxy.message && FILE_META.length !== 0 && (messagePxy.contentType === 1 ||messagePxy.contentType === 2)) {
+							} else if((messagePxy.message && FILE_META.length !== 0 && (messagePxy.contentType === 1 ||messagePxy.contentType === 2))&& (!messagePxy.forward)) {
 									 var isTopPanelAdded = ($mck_tab_message_option.hasClass('n-vis'));
 								 var tabId = $mck_msg_inner.data('mck-id');
 								 var randomId = mckUtils.randomId();
@@ -3674,6 +3675,11 @@ window.onload = function() {
                                             (typeof contact === 'undefined') ? mckMessageLayout.createContactWithDetail(userDetail): mckMessageLayout.updateContactDetail(contact, userDetail);
                                         });
                                     }
+																		if(data.userDetails.length === 0 && callback){
+																		  if (typeof callback === 'function') {
+																		      callback(params);
+																		  }
+																		}
                                     if (data.groupFeeds.length > 0) {
                                         $applozic.each(data.groupFeeds, function(i, groupFeed) {
                                             mckMessageLayout.updateUnreadCount('group_' + groupFeed.id, groupFeed.unreadCount, false);
@@ -6930,7 +6936,7 @@ window.onload = function() {
                 $applozic.tmpl('groupMemberTemplate', contactList).appendTo('#mck-group-member-list');
             };
 
-            _this.addMembersToGroupSearchList = function() {
+	            _this.addMembersToGroupSearchList = function() {
                 var groupId = $mck_msg_inner.data('mck-id');
                 var isGroup = $mck_msg_inner.data('isgroup');
                 if (isGroup) {
@@ -8008,6 +8014,7 @@ window.onload = function() {
                 mckUtils.ajax({
                     url: MCK_BASE_URL + "/twilio/token",
                     type: 'post',
+										skipEncryption: true,
                     contentType: 'application/x-www-form-urlencoded',
                     data: { "identity": userId, "device": deviceKey },
                     success: function(result) {
