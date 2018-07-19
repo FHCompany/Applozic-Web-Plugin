@@ -16,8 +16,8 @@
         var MCK_TYPING_STATUS;
         var SOCKET = '';
         var MCK_WEBSOCKET_URL = 'https://apps.applozic.com';
-        var MCK_TOKEN;
-        var USER_DEVICE_KEY;
+        ALSocket.MCK_TOKEN;
+        ALSocket.USER_DEVICE_KEY;
         var mckUtils = new MckUtils();
 
         /**
@@ -50,8 +50,8 @@
                 MCK_APP_ID = appId;
             }
             if (typeof data !== "undefined") {
-                MCK_TOKEN = data.token;
-                USER_DEVICE_KEY = data.deviceKey;
+                ALSocket.MCK_TOKEN = data.token;
+                ALSocket.USER_DEVICE_KEY = data.deviceKey;
                 MCK_WEBSOCKET_URL = data.websocketUrl;
             }
 
@@ -192,8 +192,8 @@
             ALSocket.unsubscibeToNotification();
             ALSocket.disconnect();
             var data ={};
-            data.token = MCK_TOKEN ;
-            data.deviceKey = USER_DEVICE_KEY;
+            data.token = ALSocket.MCK_TOKEN ;
+            data.deviceKey = ALSocket.USER_DEVICE_KEY;
             data.websocketUrl = MCK_WEBSOCKET_URL;
             ALSocket.init(MCK_APP_ID, data, ALSocket.events);
         };
@@ -207,7 +207,7 @@
             if (ALSocket.stompClient && ALSocket.stompClient.connected) {
                 ALSocket.stompClient.send('/topic/status-v2', {
                     "content-type": "text/plain"
-                }, MCK_TOKEN + "," + USER_DEVICE_KEY + "," + status);
+                }, ALSocket.MCK_TOKEN + "," + ALSocket.USER_DEVICE_KEY + "," + status);
             }
         };
         ALSocket.onConnect = function() {
@@ -215,12 +215,12 @@
                 if (subscriber) {
                     ALSocket.unsubscibeToNotification();
                 }
-                subscriber = ALSocket.stompClient.subscribe("/topic/" + MCK_TOKEN, ALSocket.onMessage);
+                subscriber = ALSocket.stompClient.subscribe("/topic/" + ALSocket.MCK_TOKEN, ALSocket.onMessage);
                 ALSocket.sendStatus(1);
                 ALSocket.checkConnected(true);
             } else {
                 setTimeout(function() {
-                    subscriber = ALSocket.stompClient.subscribe("/topic/" + MCK_TOKEN, ALSocket.onMessage);
+                    subscriber = ALSocket.stompClient.subscribe("/topic/" + ALSocket.MCK_TOKEN, ALSocket.onMessage);
                     ALSocket.sendStatus(1);
                     ALSocket.checkConnected(true);
                 }, 5000);

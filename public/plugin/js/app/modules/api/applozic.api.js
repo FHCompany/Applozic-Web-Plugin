@@ -225,7 +225,7 @@
             }
 
             request.onreadystatechange = function () {
-                if (request.readyState === XMLHttpRequest.DONE) {
+                if (request.readyState === 4) {
                     if (request.status === 200) {
                         //success
                         var contType = request.getResponseHeader("Content-Type");
