@@ -25,10 +25,23 @@ function ApplozicSidebox() {
     ];
     var mck_script_loader1 = [
         { "name": "jquery-template", "url": MAIN_PATH + "/js/app/modules/applozic.jquery.js" },
-        { "name": "common", "url": CHAT_PATH + "/public/applozic.chat.min.js" },
+        // we could use the minified file
+        // { "name": "main", "url": CHAT_PATH + "/public/applozic.chat.min.js" },
+        // or we could import one by one
+        { "name": "calling", "url": MAIN_PATH + "/js/app/modules/videocall/applozic.calling.js" },
+        { "name": "common", "url": MAIN_PATH + "/js/app/applozic.common.js" },
+        { "name": "main", "url": MAIN_PATH + "/js/app/modules/applozic.chat.js" },
+        { "name": "storage", "url": MAIN_PATH + "/js/app/modules/storage/applozic.storage.js" },
+        { "name": "api", "url": MAIN_PATH + "/js/app/modules/api/applozic.api.js" },
+        { "name": "socket", "url": MAIN_PATH + "/js/app/modules/socket/applozic.socket.js" },
+        { "name": "notification", "url": MAIN_PATH + "/js/app/modules/notification/applozic.notification.js" },
+        { "name": "group", "url": MAIN_PATH + "/js/app/modules/group/applozic.group.js" },
+        { "name": "user", "url": MAIN_PATH + "/js/app/modules/user/applozic.user.js" },
+        { "name": "file", "url": MAIN_PATH + "/js/app/modules/file/applozic.file.js" },
+        { "name": "message", "url": MAIN_PATH + "/js/app/modules/message/applozic.message.js" },
+        // other scripts
         { "name": "widget", "url": MAIN_PATH + "/js/applozic.widget.min.js" },
         { "name": "plugins", "url": MAIN_PATH + "/js/applozic.plugins.min.js" },
-        { "name": "socket", "url": MAIN_PATH + "/js/applozic.socket.min.js" },
         { "name": "emojis", "url": MAIN_PATH + "/js/applozic.emojis.min.js" },
         { "name": "viewer", "url": MAIN_PATH + "/js/viewer.js" },
         { "name": "aes", "url": MAIN_PATH + "/js/applozic.aes.js" },

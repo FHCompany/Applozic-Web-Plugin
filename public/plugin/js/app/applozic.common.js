@@ -263,53 +263,47 @@ function MckMapUtils() {
 }
 function MckDateUtils() {
     var _this = this;
-    var fullDateFormat = 'mmm d, h:MM TT';
-    var onlyDateFormat = 'mmm d';
-    var onlyTimeFormat = 'h:MM TT';
-    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     _this.getDate = function (createdAtTime) {
         var date = new Date(parseInt(createdAtTime, 10));
-        var currentDate = new Date();
-        return ((currentDate.getDate() === date.getDate()) && (currentDate.getMonth() === date.getMonth()) && (currentDate.getYear() === date.getYear())) ? dateFormat(date, onlyTimeFormat, false) : dateFormat(date, fullDateFormat, false);
+        if (!isInvalidDate(date)) {
+            return getFormattedDate(date)
+        } else {
+            throw SyntaxError('invalid date');
+        }
     };
-    _this.getFormattedDate = function (lang, createdAtTime) {
-        var createdAt = new Date(parseInt(createdAtTime, 10));
-        var fullFormat = { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };
-        var onlyTimeFormat = { hour: "2-digit", minute: "2-digit" };
-        var monthHourFormat = { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }
 
-        return new Date().getFullYear() > createdAt.getFullYear() ? createdAt.toLocaleTimeString(lang, fullFormat) :
-            new Date().getMonth() > createdAt.getMonth() ? createdAt.toLocaleTimeString(lang, monthHourFormat) : createdAt.toLocaleTimeString(lang, onlyTimeFormat);
-    };
     _this.getLastSeenAtStatus = function (lastSeenAtTime) {
-        var date = new Date(parseInt(lastSeenAtTime, 10));
         var currentDate = new Date();
-        if ((currentDate.getDate() === date.getDate()) && (currentDate.getMonth() === date.getMonth()) && (currentDate.getYear() === date.getYear())) {
-            var hoursDiff = currentDate.getHours() - date.getHours();
-            var timeDiff = w.Math.floor((currentDate.getTime() - date.getTime()) / 60000);
+        var date = new Date(parseInt(lastSeenAtTime, 10));
+        if (!isInvalidDate(date)) {
+            return getFormattedDate(date)
+        } else {
+            throw SyntaxError('invalid date');
+        }
+        var dateAux = new Date(date);
+        if ((currentDate.getDate() === dateAux.getDate()) && (currentDate.getMonth() === dateAux.getMonth()) && (currentDate.getYear() === dateAux.getYear())) {
+            var hoursDiff = currentDate.getHours() - dateAux.getHours();
+            var timeDiff = w.Math.floor((currentDate.getTime() - dateAux.getTime()) / 60000);
             if (timeDiff < 60) {
-                return (timeDiff <= 1) ? MCK_LABELS['last.seen'] + ' 1 ' + MCK_LABELS['min'] + ' ' + MCK_LABELS['ago'] : MCK_LABELS['last.seen'] + ' ' + timeDiff + MCK_LABELS['mins'] + ' ' + MCK_LABELS['ago'];
+                return (timeDiff <= 1) ? MCK_LABELS['last.seen'] + ' 1 ' + MCK_LABELS['min'] + ' ' + 'ago' : MCK_LABELS['last.seen'] + ' ' + timeDiff + MCK_LABELS['mins'] + ' ' + MCK_LABELS['ago'];
             }
             return (hoursDiff === 1) ? MCK_LABELS['last.seen'] + ' 1 ' + MCK_LABELS['hour'] + ' ' + MCK_LABELS['ago'] : MCK_LABELS['last.seen'] + ' ' + hoursDiff + MCK_LABELS['hours'] + ' ' + MCK_LABELS['ago'];
-        } else if (((currentDate.getDate() - date.getDate() === 1) && (currentDate.getMonth() === date.getMonth()) && (currentDate.getYear() === date.getYear()))) {
+        } else if (((currentDate.getDate() - dateAux.getDate() === 1) && (currentDate.getMonth() === dateAux.getMonth()) && (currentDate.getYear() === dateAux.getYear()))) {
             return MCK_LABELS['last.seen.on'] + ' ' + MCK_LABELS['yesterday'];
         } else {
-            return MCK_LABELS['last.seen.on'] + ' ' + dateFormat(date, onlyDateFormat, false);
+            return MCK_LABELS['last.seen.on'] + ' ' + date;
         }
     };
-    _this.getTimeOrDate = function (createdAtTime, timeFormat) {
+
+    _this.getTimeOrDate = function (createdAtTime) {
         var date = new Date(parseInt(createdAtTime, 10));
-        var currentDate = new Date();
-        if (timeFormat) {
-            return ((currentDate.getDate() === date.getDate()) && (currentDate.getMonth() === date.getMonth()) && (currentDate.getYear() === date.getYear())) ? dateFormat(date, onlyTimeFormat, false) : dateFormat(date, onlyDateFormat, false);
+        if (!isInvalidDate(date)) {
+            return getFormattedDate(date)
         } else {
-            return dateFormat(date, fullDateFormat, false);
+            throw SyntaxError('invalid date');
         }
     };
-    _this.getSystemDate = function (time) {
-        var date = new Date(parseInt(time, 10));
-        return dateFormat(date, fullDateFormat, false);
-    };
+
     _this.convertMilisIntoTime = function (millisec) {
         var duration;
         var milliseconds = parseInt((millisec % 1000) / 100),
@@ -325,106 +319,28 @@ function MckDateUtils() {
             duration = seconds + " Sec ";
         }
         return duration;
+    };
 
-    };
-    var dateFormat = function () {
-        var token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
-            timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
-            timezoneClip = /[^-+\dA-Z]/g,
-            pad = function (val, len) {
-                val = String(val);
-                len = len || 2;
-                while (val.length < len)
-                    val = '0' + val;
-                return val;
-            };
-        // Regexes and supporting functions are cached through closure
-        return function (date, mask, utc) {
-            var dF = dateFormat;
-            // You can't provide utc if you skip other args (use the
-            // "UTC:" mask prefix)
-            if (arguments.length === 1 && Object.prototype.toString.call(date) === '[object String]' && !/\d/.test(date)) {
-                mask = date;
-                date = undefined;
-            }
-            // Passing date through Date applies Date.parse, if
-            // necessary
-            date = date ? new Date(date) : new Date;
-            if (isNaN(date))
-                throw SyntaxError('invalid date');
-            mask = String(mask);
-            // mask = String(dF.masks[mask] || mask ||
-            // dF.masks["default"]);
-            // Allow setting the utc argument via the mask
-            if (mask.slice(0, 4) === 'UTC:') {
-                mask = mask.slice(4);
-                utc = true;
-            }
-            var _ = utc ? 'getUTC' : 'get',
-                d = date[_ + 'Date'](),
-                D = date[_ + 'Day'](),
-                m = date[_ + 'Month'](),
-                y = date[_ + 'FullYear'](),
-                H = date[_ + 'Hours'](),
-                M = date[_ + 'Minutes'](),
-                s = date[_ + 'Seconds'](),
-                L = date[_ + 'Milliseconds'](),
-                o = utc ? 0 : date.getTimezoneOffset(),
-                flags = {
-                    d: d,
-                    dd: pad(d),
-                    ddd: dF.i18n.dayNames[D],
-                    dddd: dF.i18n.dayNames[D + 7],
-                    m: m + 1,
-                    mm: pad(m + 1),
-                    mmm: dF.i18n.monthNames[m],
-                    mmmm: dF.i18n.monthNames[m + 12],
-                    yy: String(y).slice(2),
-                    yyyy: y,
-                    h: H % 12 || 12,
-                    hh: pad(H % 12 || 12),
-                    H: H,
-                    HH: pad(H),
-                    M: M,
-                    MM: pad(M),
-                    s: s,
-                    ss: pad(s),
-                    l: pad(L, 3),
-                    L: pad(L > 99 ? w.Math.round(L / 10) : L),
-                    t: H < 12 ? 'a' : 'p',
-                    tt: H < 12 ? 'am' : 'pm',
-                    T: H < 12 ? 'A' : 'P',
-                    TT: H < 12 ? 'AM' : 'PM',
-                    Z: utc ? 'UTC' : (String(date).match(timezone) || ['']).pop().replace(timezoneClip, ''),
-                    o: (o > 0 ? '-' : '+') + pad(w.Math.floor(w.Math.abs(o) / 60) * 100 + w.Math.abs(o) % 60, 4),
-                    S: ['th', 'st', 'nd', 'rd'][d % 10 > 3 ? 0 : (d % 100 - d % 10 !== 10) * d % 10]
-                };
-            return mask.replace(token, function ($0) {
-                return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
-            });
-        };
-    }();
-    // Some common format strings
-    dateFormat.masks = {
-        'default': 'mmm d, yyyy h:MM TT',
-        fullDateFormat: "mmm d, yyyy h:MM TT",
-        onlyDateFormat: "mmm d",
-        onlyTimeFormat: "h:MM TT",
-        mailDateFormat: "mmm d, yyyy",
-        mediumDate: "mmm d, yyyy",
-        longDate: "mmmm d, yyyy",
-        fullDate: "dddd, mmmm d, yyyy",
-        shortTime: "h:MM TT",
-        mediumTime: "h:MM:ss TT",
-        longTime: "h:MM:ss TT Z",
-        isoDate: "yyyy-mm-dd",
-        isoTime: "HH:MM:ss",
-        isoDateTime: "yyyy-mm-dd'T'HH:MM:ss",
-        isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"
-    };
-    // Internationalization strings
-    dateFormat.i18n = {
-        dayNames: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-        monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    };
+    var getFormattedDate = function (createdAtTime) {
+        var language = window.localStorage.getItem('language').replace('_', '-');
+        var createdAt = new Date(createdAtTime);
+
+        // Convert date to local timezone
+        var newDate = new Date(createdAt.getTime() + createdAt.getTimezoneOffset() * 60 * 1000);
+        var offset = createdAt.getTimezoneOffset() / 60;
+        var hours = createdAt.getHours();
+        newDate.setHours(hours - offset);
+
+        // Time Masks
+        var fullFormat = { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };
+        var onlyTimeFormat = { hour: "2-digit", minute: "2-digit" };
+        var monthHourFormat = { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }
+
+        return new Date().getFullYear() > newDate.getFullYear() ? newDate.toLocaleTimeString(language, fullFormat) :
+            new Date().getMonth() > newDate.getMonth() || new Date().getDate() > newDate.getDate() ? newDate.toLocaleTimeString(language, monthHourFormat) : newDate.toLocaleTimeString(language, onlyTimeFormat);
+    }
+
+    var isInvalidDate = function (dt) {
+        return isNaN(dt) ? true : false;
+    }
 }

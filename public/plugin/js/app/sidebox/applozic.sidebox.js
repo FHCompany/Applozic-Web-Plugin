@@ -4574,16 +4574,7 @@ window.onload = function() {
                     nameTextExpr: nameTextExpr,
                     msgFloatExpr: floatWhere,
                     replyIdExpr: replyId,
-                    createdAtTimeExpr: function () {
-                        console.log('custom createdAtTimeExpr');
-                        var createdAt = new Date(parseInt(msg.createdAtTime, 10));
-                        var fullFormat = { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };
-                        var onlyTimeFormat = { hour: "2-digit", minute: "2-digit" };
-                        var monthHourFormat = { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }
-                
-                        return new Date().getFullYear() > createdAt.getFullYear() ? createdAt.toLocaleTimeString(LANGUAGE, fullFormat) :
-                            new Date().getMonth() > createdAt.getMonth() ? createdAt.toLocaleTimeString(LANGUAGE, monthHourFormat) : createdAt.toLocaleTimeString(LANGUAGE, onlyTimeFormat);
-                    },
+                    createdAtTimeExpr: mckDateUtils.getDate(msg.createdAtTime),
                     msgFeatExpr: msgFeatExpr,
                     replyMessageParametersExpr: replyMessageParameters,
                     downloadMediaUrlExpr: alFileService.getFileAttachment(msg),
@@ -4714,20 +4705,22 @@ window.onload = function() {
                         lastSeenStatus = mckDateUtils.getLastSeenAtStatus(MCK_LAST_SEEN_AT_MAP[contact.contactId]);
                     }
                 }
-                var contactList = [{
-                    contHtmlExpr: contHtmlExpr,
-                    contIdExpr: contact.contactId,
-                    contTabExpr: contact.isGroup,
-                    contImgExpr: imgsrctag,
-                    contLastSeenExpr: lastSeenStatus,
-                    contNameExpr: displayName,
-                    groupUserCountExpr: contact.userCount,
-                    displayGroupUserCountExpr: displayCount ? "vis" : "n-vis"
-                }];
-								if(append === true){
-                	 $applozic.tmpl('searchContactbox', contactList).appendTo('#' + $listId);
-                }else{
-                $applozic.tmpl('searchContactbox', contactList).prependTo('#' + $listId);
+                if (MCK_USER_ID !== contact.contactId) {
+                    var contactList = [{
+                        contHtmlExpr: contHtmlExpr,
+                        contIdExpr: contact.contactId,
+                        contTabExpr: contact.isGroup,
+                        contImgExpr: imgsrctag,
+                        contLastSeenExpr: lastSeenStatus,
+                        contNameExpr: displayName,
+                        groupUserCountExpr: contact.userCount,
+                        displayGroupUserCountExpr: displayCount ? "vis" : "n-vis"
+                    }];
+                    if (append === true){
+                        $applozic.tmpl('searchContactbox', contactList).appendTo('#' + $listId);
+                    } else {
+                        $applozic.tmpl('searchContactbox', contactList).prependTo('#' + $listId);
+                    }
                 }
             };
 
@@ -5296,7 +5289,7 @@ window.onload = function() {
                     titleExpr: title,
                     groupUserCountExpr: isGroupTab ? contact.userCount : '',
                     displayGroupUserCountExpr: displayCount ? "vis" : "n-vis",
-                    msgCreatedDateExpr: message ? mckDateUtils.getTimeOrDate(message.createdAtTime, true) : ''
+                    msgCreatedDateExpr: message ? mckDateUtils.getDate(message.createdAtTime) : ''
                 }];
                 var latestCreatedAtTime = $applozic('#' + $listId + ' li:nth-child(1)').data('msg-time');
                 if (typeof latestCreatedAtTime === "undefined" || (message ? message.createdAtTime : '') >= latestCreatedAtTime || ($listId.indexOf("search") !== -1 && prepend)) {
@@ -6616,7 +6609,7 @@ window.onload = function() {
                         groupMembers += ' ' + name + ',';
                     }
                     if (group.type !== 5 && group.type !== 6 || (isGroupMember && group.type !== 5)) {
-                        groupMembers += MCK_LABELS['you'];
+                        groupMembers += CHAT_LANGUAGE === 'en_US' ? 'You' : CHAT_LANGUAGE === 'pt_BR' ? 'Você' : 'Usted';
                     }
                     if (group.members.length > 30) {
                         groupMembers += ' and ' + (group.members.length - 25) + ' more';
