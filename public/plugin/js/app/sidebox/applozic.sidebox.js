@@ -1,6 +1,5 @@
 var MCK_GROUP_MAP = [];
 var MCK_CLIENT_GROUP_MAP = [];
-var LANGUAGE = window.localStorage.getItem('language').replace('_', '-');
 window.onload = function() {
     var Viewer = window.Viewer;
 }

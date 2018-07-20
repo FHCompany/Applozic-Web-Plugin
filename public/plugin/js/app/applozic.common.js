@@ -275,32 +275,21 @@ function MckDateUtils() {
     _this.getLastSeenAtStatus = function (lastSeenAtTime) {
         var currentDate = new Date();
         var date = new Date(parseInt(lastSeenAtTime, 10));
-        if (!isInvalidDate(date)) {
-            return getFormattedDate(date)
+        if (isInvalidDate(date)) {
+            throw SyntaxError('Invalid Date'); 
         } else {
-            throw SyntaxError('invalid date');
-        }
-        var dateAux = new Date(date);
-        if ((currentDate.getDate() === dateAux.getDate()) && (currentDate.getMonth() === dateAux.getMonth()) && (currentDate.getYear() === dateAux.getYear())) {
-            var hoursDiff = currentDate.getHours() - dateAux.getHours();
-            var timeDiff = w.Math.floor((currentDate.getTime() - dateAux.getTime()) / 60000);
-            if (timeDiff < 60) {
-                return (timeDiff <= 1) ? MCK_LABELS['last.seen'] + ' 1 ' + MCK_LABELS['min'] + ' ' + 'ago' : MCK_LABELS['last.seen'] + ' ' + timeDiff + MCK_LABELS['mins'] + ' ' + MCK_LABELS['ago'];
+            if ((currentDate.getDate() === date.getDate()) && (currentDate.getMonth() === date.getMonth()) && (currentDate.getYear() === date.getYear())) {
+                var hoursDiff = currentDate.getHours() - date.getHours();
+                var timeDiff = w.Math.floor((currentDate.getTime() - date.getTime()) / 60000);
+                if (timeDiff < 60) {
+                    return (timeDiff <= 1) ? MCK_LABELS['last.seen'] + ' 1 ' + MCK_LABELS['min'] + ' ' + MCK_LABELS['ago'] : MCK_LABELS['last.seen'] + ' ' + timeDiff + MCK_LABELS['mins'] + ' ' + MCK_LABELS['ago'];
+                }
+                return (hoursDiff === 1) ? MCK_LABELS['last.seen'] + ' 1 ' + MCK_LABELS['hour'] + ' ' + MCK_LABELS['ago'] : MCK_LABELS['last.seen'] + ' ' + hoursDiff + MCK_LABELS['hours'] + ' ' + MCK_LABELS['ago'];
+            } else if (((currentDate.getDate() - date.getDate() === 1) && (currentDate.getMonth() === date.getMonth()) && (currentDate.getYear() === date.getYear()))) {
+                return MCK_LABELS['last.seen'] + ' ' + MCK_LABELS['yesterday'];
+            } else {
+                return MCK_LABELS['last.seen'] + ' ' + getFormattedDate(date);
             }
-            return (hoursDiff === 1) ? MCK_LABELS['last.seen'] + ' 1 ' + MCK_LABELS['hour'] + ' ' + MCK_LABELS['ago'] : MCK_LABELS['last.seen'] + ' ' + hoursDiff + MCK_LABELS['hours'] + ' ' + MCK_LABELS['ago'];
-        } else if (((currentDate.getDate() - dateAux.getDate() === 1) && (currentDate.getMonth() === dateAux.getMonth()) && (currentDate.getYear() === dateAux.getYear()))) {
-            return MCK_LABELS['last.seen.on'] + ' ' + MCK_LABELS['yesterday'];
-        } else {
-            return MCK_LABELS['last.seen.on'] + ' ' + date;
-        }
-    };
-
-    _this.getTimeOrDate = function (createdAtTime) {
-        var date = new Date(parseInt(createdAtTime, 10));
-        if (!isInvalidDate(date)) {
-            return getFormattedDate(date)
-        } else {
-            throw SyntaxError('invalid date');
         }
     };
 
@@ -322,22 +311,25 @@ function MckDateUtils() {
     };
 
     var getFormattedDate = function (createdAtTime) {
-        var language = window.localStorage.getItem('language').replace('_', '-');
-        var createdAt = new Date(createdAtTime);
-
-        // Convert date to local timezone
-        var newDate = new Date(createdAt.getTime() + createdAt.getTimezoneOffset() * 60 * 1000);
-        var offset = createdAt.getTimezoneOffset() / 60;
-        var hours = createdAt.getHours();
-        newDate.setHours(hours - offset);
-
         // Time Masks
         var fullFormat = { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };
         var onlyTimeFormat = { hour: "2-digit", minute: "2-digit" };
         var monthHourFormat = { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }
 
-        return new Date().getFullYear() > newDate.getFullYear() ? newDate.toLocaleTimeString(language, fullFormat) :
-            new Date().getMonth() > newDate.getMonth() || new Date().getDate() > newDate.getDate() ? newDate.toLocaleTimeString(language, monthHourFormat) : newDate.toLocaleTimeString(language, onlyTimeFormat);
+        var language = window.localStorage.getItem('language').replace('_', '-');
+        var createdAt = new Date(createdAtTime);
+
+        // Verify if current time is the same of the message. If not, convert time to local timezone
+        if (new Date().getHours() !== createdAt.getHours()) {
+            var newDate = new Date(createdAt.getTime() + createdAt.getTimezoneOffset() * 60 * 1000);
+            var offset = createdAt.getTimezoneOffset() / 60;
+            var hours = createdAt.getHours();
+            newDate.setHours(hours - offset);
+            createdAt = new Date(newDate);
+        }
+
+        return new Date().getFullYear() > createdAt.getFullYear() ? createdAt.toLocaleTimeString(language, fullFormat) :
+            new Date().getMonth() > createdAt.getMonth() || new Date().getDate() > createdAt.getDate() ? createdAt.toLocaleTimeString(language, monthHourFormat) : createdAt.toLocaleTimeString(language, onlyTimeFormat);
     }
 
     var isInvalidDate = function (dt) {
