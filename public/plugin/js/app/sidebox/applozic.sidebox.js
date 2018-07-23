@@ -2025,7 +2025,9 @@ window.onload = function() {
                 });
                 MCK_TOKEN = data.token;
                 mckUtils.setEncryptionKey(data.encryptionKey);
+								if (typeof (data.encryptionKey) !== 'undefined'){
 								ALStorage.setEncryptionKey(data.encryptionKey);
+								}
                 MCK_USER_ID = data.userId;
                 USER_COUNTRY_CODE = data.countryCode;
                 USER_DEVICE_KEY = data.deviceKey;
@@ -5426,8 +5428,8 @@ window.onload = function() {
                     if ((typeof data.userId !== "undefined")) {
                         var contact = _this.getContact('' + data.userId);
                         contact = (typeof contact === 'undefined') ? _this.createContactWithDetail(data) : _this.updateContactDetail(contact, data);
-                        MCK_CONTACT_ARRAY.push(contact);
-                        MCK_GROUP_MEMBER_SEARCH_ARRAY.push(contact.contactId);
+												MCK_CONTACT_ARRAY.push(contact);
+												MCK_GROUP_MEMBER_SEARCH_ARRAY.push(contact.contactId);
                     }
                 });
             };
@@ -6078,48 +6080,50 @@ window.onload = function() {
 					 var url = CONTACT_LIST_URL + '?startIndex=0&pageSize=50&orderBy=1';
 						mckContactService.ajaxcallForContacts(url);
 				 };
-						_this.ajaxcallForContacts =  function (url,append) {
-							var mckContactNameArray = [];
-							var $mck_gms_loading = $applozic("#mck-gms-loading");
-							$mck_gms_loading.removeClass('n-vis').addClass('vis');
-							window.Applozic.ALApiService.getContactList({
-								url:url,
-								baseUrl: MCK_BASE_URL,
-							success: function(data) {
-								lastFetchTime = data.lastFetchTime;
-									if ($mck_sidebox_search.hasClass('vis') || $mck_gms_loading.hasClass('vis')) {
-											if (typeof data === 'object' && data.users.length > 0) {
-													$applozic.each(data.users, function(i, user) {
-															if (typeof user.userId !== 'undefined') {
-																	var contact = mckMessageLayout.getContact('' + user.userId);
-																	contact = (typeof contact === 'undefined') ? mckMessageLayout.createContactWithDetail(user) : mckMessageLayout.updateContactDetail(contact, user);
-																	MCK_CONTACT_ARRAY.push(contact);
-																	MCK_GROUP_MEMBER_SEARCH_ARRAY.push(contact.contactId);
-																	mckContactNameArray.push([user.userId, contact.displayName]);
-																	if (user.connected) {
-																			w.MCK_OL_MAP[user.userId] = true;
-																	} else {
-																			w.MCK_OL_MAP[user.userId] = false;
-																			if (typeof user.lastSeenAtTime !== 'undefined') {
-																					MCK_LAST_SEEN_AT_MAP[user.userId] = user.lastSeenAtTime;
-																			}
+				_this.ajaxcallForContacts =  function (url,append) {
+					var mckContactNameArray = [];
+					var $mck_gms_loading = $applozic("#mck-gms-loading");
+					$mck_gms_loading.removeClass('n-vis').addClass('vis');
+					window.Applozic.ALApiService.getContactList({
+						url:url,
+						baseUrl: MCK_BASE_URL,
+					success: function(data) {
+						lastFetchTime = data.lastFetchTime;
+							if ($mck_sidebox_search.hasClass('vis') || $mck_gms_loading.hasClass('vis')) {
+									if (typeof data === 'object' && data.users.length > 0) {
+											$applozic.each(data.users, function(i, user) {
+													if (typeof user.userId !== 'undefined') {
+															var contact = mckMessageLayout.getContact('' + user.userId);
+															contact = (typeof contact === 'undefined') ? mckMessageLayout.createContactWithDetail(user) : mckMessageLayout.updateContactDetail(contact, user);
+															if(!IS_MCK_OWN_CONTACTS){
+																MCK_CONTACT_ARRAY.push(contact);
+																MCK_GROUP_MEMBER_SEARCH_ARRAY.push(contact.contactId);
+																mckContactNameArray.push([user.userId, contact.displayName]);
+															}
+															if (user.connected) {
+																	w.MCK_OL_MAP[user.userId] = true;
+															} else {
+																	w.MCK_OL_MAP[user.userId] = false;
+																	if (typeof user.lastSeenAtTime !== 'undefined') {
+																			MCK_LAST_SEEN_AT_MAP[user.userId] = user.lastSeenAtTime;
 																	}
 															}
-													});
-													if (mckContactNameArray.length > 0) {
-															ALStorage.updateMckContactNameArray(mckContactNameArray);
 													}
+											});
+											if (mckContactNameArray.length > 0) {
+													ALStorage.updateMckContactNameArray(mckContactNameArray);
 											}
-											mckMessageLayout.addContactsToSearchList(append);
-                      mckGroupLayout.addMembersToGroupSearchList();
-											return;
 									}
-							},
-							error: function() {
-									$mck_search_loading.removeClass('vis').addClass('n-vis');
-									w.console.log('Unable to load contacts. Please reload page.');
-							} });
-}
+									mckMessageLayout.addContactsToSearchList(append);
+                  mckGroupLayout.addMembersToGroupSearchList();
+									return;
+							}
+					},
+					error: function() {
+							$mck_search_loading.removeClass('vis').addClass('n-vis');
+							w.console.log('Unable to load contacts. Please reload page.');
+					} });
+			}
 
 						_this.getUsersDetail = function(userIdArray, params) {
 				        if (typeof userIdArray === 'undefined' || userIdArray.length < 1) {
@@ -6419,6 +6423,8 @@ window.onload = function() {
                             apzCallback: mckGroupLayout.onUpdateGroupInfo
                         }
                         mckGroupService.updateGroupInfo(params);
+												var $mck_group_change_role_box = $applozic("#mck-group-change-role-box");
+               					$mck_group_change_role_box.removeClass('vis').addClass('n-vis');
                     }
                 }
             });
@@ -6600,7 +6606,7 @@ window.onload = function() {
                         groupMembers += ' ' + name + ',';
                     }
                     if (group.type !== 5 && group.type !== 6 || (isGroupMember && group.type !== 5)) {
-                        groupMembers += CHAT_LANGUAGE === 'en_US' ? ' You' : CHAT_LANGUAGE === 'pt_BR' ? ' Você' : ' Usted';
+                        groupMembers += MCK_LABELS['you'];
                     }
                     if (group.members.length > 30) {
                         groupMembers += ' and ' + (group.members.length - 25) + ' more';
