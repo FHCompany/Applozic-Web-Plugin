@@ -58,8 +58,9 @@ function AlUserService() {
   };
   _this.loadUserProfile = function(userId) {
     if (typeof userId !== "undefined") {
+      var user = userId.toString();
       var userIdArray = [];
-      var memberId = '' + userId.split(",")[0];
+      var memberId = '' + user.split(",")[0];
       userIdArray.push(memberId);
       _this.loadUserProfiles(userIdArray);
     }

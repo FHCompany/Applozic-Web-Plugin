@@ -1,3 +1,11 @@
+<script type="text/javascript" id="applozic-jquery-aux">
+    var $original;
+    if (typeof jQuery !== 'undefined') {
+        $original = jQuery.noConflict(true);
+        $ = $original;
+        jQuery = $original;
+    }
+</script>
 <div class="mck-container">
     <div class="left mck-message-inner-left">
         <div class="panel-content">
