@@ -1,3 +1,11 @@
+<script type="text/javascript" id="applozic-jquery-aux">
+    var $original;
+    if (typeof jQuery !== 'undefined') {
+        $original = jQuery.noConflict(true);
+        $ = $original;
+        jQuery = $original;
+    }
+</script>
 <div id="mck-side-panel">
     <div id="mck-sidebox" class="mck-sidebox mck-box fade">
         <div class="mck-box-dialog mck-box-sm mck-right mck-bg-white">
@@ -85,8 +93,8 @@
                                         <a target="_self" id="mck-btn-leave-group" class="menu-item" title="Exit Group"> Exit Group </a>
                                     </li>
                                     <!--li id="li-mck-video-call">
-                                        <a target="_self" id="mck-btn-video-call" class="menu-item n-vis" title="Video Call">Video Call</a>
-                                    </li-->
+                                    <a target="_self" id="mck-btn-video-call" class="menu-item n-vis" title="Video Call">Video Call</a>
+                                </li-->
                                 </ul>
                             </div>
                         </div>
@@ -223,8 +231,8 @@
                     </div>
                 </div>
                 <!--div class="mck-running-on n-vis">
-                    <a href="https://www.applozic.com" target="_blank"><span class="n-vis">Applozic Chat SDK</span><strong>Powered by Applozic</strong></a>
-                </div-->
+                <a href="https://www.applozic.com" target="_blank"><span class="n-vis">Applozic Chat SDK</span><strong>Powered by Applozic</strong></a>
+            </div-->
             </div>
             <div id="mck-sidebox-search" class="mck-sidebox-search mck-sidebox-content mck-box-content n-vis">
                 <div class="mck-box-top">
