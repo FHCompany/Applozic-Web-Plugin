@@ -3675,9 +3675,6 @@ window.onload = function() {
 													var contact = mckMessageLayout.getContact('' + userDetail.userId);
 													(typeof contact === 'undefined') ? mckMessageLayout.createContactWithDetail(userDetail): mckMessageLayout.updateContactDetail(contact, userDetail);
                                                 });
-                                                if (typeof callback === 'function') {
-                                                    callback(params);
-                                                }
 											}
 											if (data.userDetails.length === 0 && callback) {
 												if (typeof callback === 'function') {
@@ -4344,6 +4341,8 @@ window.onload = function() {
 								_this.openConversation();
 								CONTACT_SYNCING = false;
 								return;
+							} else {
+								_this.openConversation();
 							}
 						}
 
